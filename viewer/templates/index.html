@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunar Cards Explorer - Exploração Lunar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .hero-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #b8c1ec;
+            margin-bottom: 3rem;
+        }
+        .nav-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .nav-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        .nav-icon {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">
+                <i class="fas fa-rocket"></i> Lunar Cards Explorer
+            </h1>
+            <p class="hero-subtitle">
+                Descubra a fascinante história da exploração lunar através de cartas interativas
+            </p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="nav-card text-center" onclick="startExploration('timeline')">
+                    <div class="nav-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Linha do Tempo</h3>
+                    <p>Explore a história lunar em ordem cronológica, desde as primeiras missões soviéticas até os planos futuros para Marte.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="nav-card text-center" onclick="startExploration('thematic')">
+                    <div class="nav-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Por Temas</h3>
+                    <p>Descubra por grupos temáticos: era soviética, programa americano, missões internacionais e exploração comercial.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="nav-card text-center" onclick="startExploration('random')">
+                    <div class="nav-icon">
+                        <i class="fas fa-shuffle"></i>
+                    </div>
+                    <h3>Exploração Aleatória</h3>
+                    <p>Deixe-se surpreender! Navegue pelas cartas em ordem aleatória e faça descobertas inesperadas.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <p class="text-muted">
+                <i class="fas fa-info-circle"></i> 
+                Clique em qualquer modo de navegação para começar sua jornada lunar
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create animated stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 50;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        function startExploration(navType) {
+            // Start with first card of the selected navigation type
+            window.location.href = `/card/1?nav=${navType}`;
+        }
+        
+        // Initialize stars when page loads
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+</body>
+</html>

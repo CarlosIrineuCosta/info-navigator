@@ -1,0 +1,17 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "titulo": "A União Soviética conseguiu o primeiro pouso suave na Lua antes dos americanos. Você sabe qual missão realizou essa façanha?",
+      "resumo": "A sonda Luna 9, lançada em janeiro de 1966, tornou-se a primeira nave espacial a pousar suavemente na superfície lunar e transmitir imagens de lá. Esta conquista soviética aconteceu três anos antes da Apollo 11, demonstrando que os russos lideravam inicialmente a corrida espacial lunar.",
+      "detalhado": "Em 3 de fevereiro de 1966, a Luna 9 pousou no Oceano das Tempestades, encerrando uma série de tentativas frustradas tanto soviéticas quanto americanas de conseguir um pouso suave na Lua. A sonda, pesando apenas 99 quilos, abriu suas pétalas protetoras como uma flor mecânica e começou a transmitir as primeiras imagens panorâmicas da superfície lunar. Essas fotografias revelaram um terreno rochoso e irregular, contrariando teorias de que a Lua estava coberta por uma espessa camada de poeira que engoliria qualquer nave que tentasse pousar. O sucesso da Luna 9 foi crucial para provar a viabilidade de pousos lunares tripulados, fornecendo dados essenciais sobre a resistência do solo lunar. Ironicamente, as primeiras imagens foram captadas e publicadas pelo radiotelescópio de Jodrell Bank, na Inglaterra, antes mesmo da divulgação oficial soviética, criando um pequeno incidente diplomático durante a Guerra Fria."
+    },
+    {
+      "id": 2,
+      "titulo": "Neil Armstrong foi o primeiro homem a pisar na Lua. Em que ano isso aconteceu?",
+      "resumo": "Em 20 de julho de 1969, Neil Armstrong tornou-se o primeiro ser humano a pisar na superfície lunar durante a missão Apollo 11, seguido por Buzz Aldrin. Este momento histórico marcou o ápice da corrida espacial e cumpriu a promessa do presidente Kennedy de levar americanos à Lua antes do fim da década.",
+      "detalhado": "A missão Apollo 11 representou o culminar de oito anos de esforços extraordinários após o desafio lançado pelo presidente John F. Kennedy em 1961. Cerca de 400.000 pessoas trabalharam direta ou indiretamente no programa Apollo, que consumiu aproximadamente 25 bilhões de dólares da época, equivalente a mais de 150 bilhões de dólares atuais. Armstrong e Aldrin passaram 21 horas e 36 minutos na superfície lunar, coletando 21,5 quilos de amostras de solo e rochas lunares, enquanto Michael Collins permanecia em órbita no módulo de comando Columbia. As famosas palavras de Armstrong, 'Um pequeno passo para o homem, um salto gigantesco para a humanidade', foram ouvidas por cerca de 650 milhões de pessoas ao redor do mundo. A missão não apenas provou a capacidade tecnológica americana, mas também serviu como um momento de união global, transcendendo temporariamente as divisões da Guerra Fria. O sucesso da Apollo 11 estabeleceu os Estados Unidos como líder na exploração espacial e inspirou gerações futuras de cientistas e exploradores.",
+      "video_url": "https://www.youtube.com/watch?v=cwZb2mqId0A&t=125s"
+    }
+  ]
+}

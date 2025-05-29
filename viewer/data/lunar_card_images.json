@@ -1,0 +1,14 @@
+{
+  "card_images": {
+    "1": "https://moon.nasa.gov/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBMdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d20a839b5daef9e4a724e3e81d784c61cb590204/luna9close_big.jpg",
+    "2": "https://svs.gsfc.nasa.gov/vis/a030000/a031000/a031052/revisiting_apollo_landing_sites_LROC_print.jpg",
+    "3": "https://images-assets.nasa.gov/image/PIA00405/PIA00405~small.jpg",
+    "4": "https://www.hq.nasa.gov/alsj/a16/a16pan1240222dmh.jpg",
+    "5": "https://images-assets.nasa.gov/image/PIA00404/PIA00404~large.jpg",
+    "6": "https://www.nasa.gov/sites/default/files/thumbnails/image/lmc_7k.jpg",
+    "7": "https://svs.gsfc.nasa.gov/vis/a030000/a031000/a031052/revisiting_apollo_landing_sites_LROC.png",
+    "8": "https://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg",
+    "9": "https://images-assets.nasa.gov/image/PIA00405/PIA00405~small.jpg",
+    "10": "https://images-assets.nasa.gov/image/PIA00404/PIA00404~large.jpg"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "titulo": "Question text in Portuguese", 
+  "resumo": "Brief answer paragraph",
+  "detalhado": "Detailed 3-4 paragraph explanation",
+  "video_url": "https://youtube.com/watch?v=ID&t=125s" // Optional
+}

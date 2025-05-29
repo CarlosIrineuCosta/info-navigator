@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especificação: Integração de Vídeos do YouTube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Visualization & Content Choices:
+        - Report Section: "O Que Mudou" -> Goal: Inform about changes -> Presentation: Headings, bullet points. Sub-sections like "Novo Fluxo Interativo" use lists. "Suporte a Vídeos do YouTube" and "Exemplo JSON" use `<pre><code class="language-json">` for JSON display with a 'Copiar' button (JS interaction). Unicode icons (e.g., ▶️, 🖼️, ⌨️) for visual cues. Justification: Clear and direct presentation of technical details. Method: HTML, Tailwind, Vanilla JS.
+        - Report Section: "Formatos de URL Suportados" -> Goal: Inform about valid URLs -> Presentation: Bulleted list. Justification: Easy lookup of formats. Method: HTML, Tailwind.
+        - Report Section: "Sistema de Prioridade" -> Goal: Explain logic -> Presentation: Bulleted list with icons (▶️ vs 🖼️). Justification: Clarity of logic. Method: HTML, Tailwind.
+        - Report Section: "Controles de Teclado" -> Goal: Inform about shortcuts -> Presentation: List with bolded keys and Unicode keyboard icons (⌨️). Justification: Quick reference. Method: HTML, Tailwind.
+        - Report Section: "Como Atualizar seu JSON", "Teste Suas Mudanças" -> Goal: Provide instructions -> Presentation: Numbered lists. Justification: Step-by-step guidance. Method: HTML, Tailwind.
+        - Chart.js/Plotly.js: Not used as the source report is a textual specification document without quantitative data suitable for charting. Their inclusion would not enhance the understanding or usability of this particular report.
+    -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .content-section { scroll-margin-top: 80px; }
+        .sidebar-link.active {
+            background-color: #0284c7; /* sky-600 */
+            color: white;
+        }
+        .sidebar-link:hover {
+            background-color: #0369a1; /* sky-700 for non-active */
+            color: white;
+        }
+        .sidebar-link.active:hover {
+            background-color: #0284c7; /* sky-600, no change on hover if active */
+        }
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #38bdf8; /* sky-400 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .copy-button:hover {
+            background-color: #0ea5e9; /* sky-500 */
+        }
+        .copied-feedback {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+        pre {
+            background-color: #1f2937; /* gray-800 */
+            color: #f3f4f6; /* gray-100 */
+            padding: 1rem;
+            padding-top: 2.5rem; /* Space for button */
+            border-radius: 0.375rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        code.language-json .token.property { color: #fbbf24; } /* amber-400 */
+        code.language-json .token.string { color: #a3e635; } /* lime-400 */
+        code.language-json .token.number { color: #67e8f9; } /* cyan-300 */
+        code.language-json .token.boolean { color: #f472b6; } /* pink-400 */
+        code.language-json .token.null { color: #fda4af; } /* rose-300 */
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <aside id="sidebar" class="w-full md:w-64 lg:w-72 bg-gray-800 text-gray-100 p-4 md:p-6 space-y-2 md:fixed md:h-full md:top-0 md:left-0 md:overflow-y-auto transition-transform duration-300 ease-in-out transform -translate-x-full md:translate-x-0">
+            <h1 class="text-xl font-bold mb-6 text-sky-400">Especificação</h1>
+            <nav>
+                <ul class="space-y-1">
+                    <li><a href="#what-ive-changed" class="sidebar-link block py-2 px-3 rounded-md">O Que Mudou</a>
+                        <ul class="ml-4 mt-1 space-y-1">
+                            <li><a href="#interactive-flow" class="sidebar-link block py-1.5 px-3 rounded-md text-sm">Novo Fluxo Interativo</a></li>
+                            <li><a href="#video-support" class="sidebar-link block py-1.5 px-3 rounded-md text-sm">Suporte a Vídeos</a></li>
+                            <li><a href="#url-formats" class="sidebar-link block py-1.5 px-3 rounded-md text-sm">Formatos de URL</a></li>
+                            <li><a href="#priority-system" class="sidebar-link block py-1.5 px-3 rounded-md text-sm">Sistema de Prioridade</a></li>
+                            <li><a href="#keyboard-controls" class="sidebar-link block py-1.5 px-3 rounded-md text-sm">Controles de Teclado</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#example-json" class="sidebar-link block py-2 px-3 rounded-md">Exemplo JSON com Vídeo</a></li>
+                    <li><a href="#how-to-update" class="sidebar-link block py-2 px-3 rounded-md">Como Atualizar seu JSON</a></li>
+                    <li><a href="#test-changes" class="sidebar-link block py-2 px-3 rounded-md">Teste Suas Mudanças</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <header class="md:hidden bg-gray-800 text-white p-4 sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-lg font-semibold">Especificação</h1>
+                <button id="mobile-menu-button" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 p-6 md:p-10 md:ml-64 lg:ml-72">
+            <div class="max-w-4xl mx-auto space-y-12">
+                <header class="mb-10">
+                    <h1 class="text-4xl font-bold text-sky-700">Integração de Vídeos do YouTube</h1>
+                    <p class="mt-2 text-lg text-gray-600">Este documento detalha as especificações para a funcionalidade de integração de vídeos do YouTube.</p>
+                </header>
+
+                <section id="what-ive-changed" class="content-section space-y-8">
+                    <h2 class="text-3xl font-semibold text-sky-600 border-b pb-2 border-sky-200">O Que Mudou</h2>
+                    <p>Esta seção descreve as principais alterações e novas funcionalidades implementadas.</p>
+
+                    <article id="interactive-flow" class="content-section space-y-3 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-medium text-gray-700">1. Novo Fluxo Interativo:</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                            <li>Cards agora mostram apenas a <strong>pergunta</strong> e <strong>imagem/vídeo</strong> inicialmente.</li>
+                            <li>Usuário clica no botão "Ver Resposta" para revelar a resposta.</li>
+                            <li>Botão "Próxima" muda de comportamento:
+                                <ul class="list-disc list-inside space-y-1 pl-6 mt-1">
+                                    <li>Antes da resposta: "Ver Resposta" (revela a resposta).</li>
+                                    <li>Depois da resposta: "Próxima" (vai para o próximo card).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article id="video-support" class="content-section space-y-3 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-medium text-gray-700">2. Suporte a Vídeos do YouTube:</h3>
+                        <p class="text-gray-700">Para adicionar um vídeo do YouTube a qualquer card, adicione um campo <code>video_url</code> ao JSON:</p>
+                        <div class="relative w-full">
+                            <pre><code class="language-json">{
+  "id": 2,
+  "titulo": "Neil Armstrong foi o primeiro homem a pisar na Lua. Em que ano isso aconteceu?",
+  "resumo": "Em 20 de julho de 1969, Neil Armstrong tornou-se o primeiro ser humano...",
+  "detalhado": "A missão Apollo 11 representou o culminar...",
+  "video_url": "[https://www.youtube.com/watch?v=cwZb2mqId0A&t=125s](https://www.youtube.com/watch?v=cwZb2mqId0A&t=125s)"
+}</code></pre>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copiar</button>
+                        </div>
+                    </article>
+
+                    <article id="url-formats" class="content-section space-y-3 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-medium text-gray-700">3. Formatos de URL Suportados:</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                            <li><code>https://www.youtube.com/watch?v=VIDEO_ID&t=125s</code> (com timestamp)</li>
+                            <li><code>https://www.youtube.com/watch?v=VIDEO_ID</code> (sem timestamp)</li>
+                            <li><code>https://youtu.be/VIDEO_ID?t=125s</code> (formato curto com timestamp)</li>
+                            <li><code>https://youtu.be/VIDEO_ID</code> (formato curto sem timestamp)</li>
+                        </ul>
+                         <p class="text-sm text-gray-500 mt-2">Nota: Os URLs fornecidos são exemplos ilustrativos para esta especificação.</p>
+                    </article>
+
+                    <article id="priority-system" class="content-section space-y-3 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-medium text-gray-700">4. Sistema de Prioridade:</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                            <li>Se <code>video_url</code> existir → <span class="font-semibold">mostra vídeo</span> <span class="text-xl">▶️</span> (ignora imagem).</li>
+                            <li>Se não houver <code>video_url</code> → <span class="font-semibold">mostra imagem</span> <span class="text-xl">🖼️</span> como antes.</li>
+                        </ul>
+                    </article>
+
+                    <article id="keyboard-controls" class="content-section space-y-3 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-medium text-gray-700">5. Controles de Teclado Aprimorados:</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                            <li><span class="font-semibold">Setas / A/D</span> <span class="text-xl">⌨️</span>: Navegar cards</li>
+                            <li><span class="font-semibold">Espaço/Enter</span> <span class="text-xl">⌨️</span>: Revelar resposta (quando oculta)</li>
+                            <li><span class="font-semibold">H</span> <span class="text-xl">⌨️</span>: Ir para home</li>
+                        </ul>
+                    </article>
+                </section>
+
+                <section id="example-json" class="content-section space-y-4 bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-3xl font-semibold text-sky-600 border-b pb-2 border-sky-200">Exemplo JSON Card com Vídeo:</h2>
+                     <p class="text-gray-700">Abaixo está um exemplo completo de um card JSON que inclui um <code>video_url</code>.</p>
+                    <div class="relative w-full">
+                        <pre><code class="language-json">{
+  "id": 2,
+  "titulo": "Neil Armstrong foi o primeiro homem a pisar na Lua. Em que ano isso aconteceu?",
+  "resumo": "Em 20 de julho de 1969, Neil Armstrong tornou-se o primeiro ser humano a pisar na superfície lunar durante a missão Apollo 11, seguido por Buzz Aldrin.",
+  "detalhado": "A missão Apollo 11 representou o culminar de oito anos de esforços extraordinários...",
+  "video_url": "[https://www.youtube.com/watch?v=cwZb2mqId0A&t=125s](https://www.youtube.com/watch?v=cwZb2mqId0A&t=125s)"
+}</code></pre>
+                        <button class="copy-button" onclick="copyToClipboard(this)">Copiar</button>
+                    </div>
+                </section>
+
+                <section id="how-to-update" class="content-section space-y-4 bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-3xl font-semibold text-sky-600 border-b pb-2 border-sky-200">Como Atualizar Seu JSON:</h2>
+                     <p class="text-gray-700">Siga estes passos para integrar vídeos nos seus cards existentes:</p>
+                    <ol class="list-decimal list-inside space-y-2 pl-4 text-gray-700">
+                        <li><strong>Mantenha os cards existentes como estão</strong> (eles continuarão usando imagens).</li>
+                        <li><strong>Adicione o campo <code>video_url</code></strong> a qualquer card onde você queira vídeo em vez de imagem.</li>
+                        <li><strong>Encontre bons vídeos do YouTube</strong> com momentos relevantes.</li>
+                        <li><strong>Inclua timestamp</strong> na URL para iniciar em um momento específico (opcional).</li>
+                    </ol>
+                    <p class="text-gray-700 mt-3">O sistema lida automaticamente com:</p>
+                    <ul class="list-disc list-inside space-y-1 pl-4 text-gray-600 text-sm">
+                        <li>Conversão de URLs do YouTube para formato de iframe incorporável.</li>
+                        <li>Extração de IDs de vídeo e timestamps.</li>
+                        <li>Dimensionamento responsivo adequado do vídeo.</li>
+                        <li>Fallback para imagens quando nenhum URL de vídeo é fornecido.</li>
+                    </ul>
+                </section>
+
+                <section id="test-changes" class="content-section space-y-4 bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-3xl font-semibold text-sky-600 border-b pb-2 border-sky-200">Teste Suas Mudanças:</h2>
+                    <p class="text-gray-700">Para verificar se a integração está funcionando corretamente:</p>
+                    <ol class="list-decimal list-inside space-y-2 pl-4 text-gray-700">
+                        <li>Reinicie seu aplicativo Flask: <code>python app.py</code></li>
+                        <li>Navegue para qualquer card.</li>
+                        <li>Você deve ver o novo fluxo "Ver Resposta".</li>
+                        <li>Adicione um URL de vídeo para testar a funcionalidade de vídeo.</li>
+                    </ol>
+                </section>
+            </div>
+             <footer class="mt-16 pt-8 border-t border-gray-300 text-center text-gray-500 text-sm">
+                <p>© <span id="currentYear"></span> Especificação de Integração de Vídeos. Todos os direitos reservados.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function copyToClipboard(buttonElement) {
+            const preElement = buttonElement.previousElementSibling;
+            const codeText = preElement.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = 'Copiado!';
+                buttonElement.classList.remove('copy-button');
+                buttonElement.classList.add('copied-feedback');
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                    buttonElement.classList.remove('copied-feedback');
+                    buttonElement.classList.add('copy-button');
+                }, 2000);
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+                // Avoid using alert()
+                const tempAlert = document.createElement('div');
+                tempAlert.textContent = 'Erro ao copiar. Por favor, copie manualmente.';
+                tempAlert.style.position = 'fixed';
+                tempAlert.style.bottom = '20px';
+                tempAlert.style.left = '50%';
+                tempAlert.style.transform = 'translateX(-50%)';
+                tempAlert.style.backgroundColor = '#ef4444'; /* red-500 */
+                tempAlert.style.color = 'white';
+                tempAlert.style.padding = '10px 20px';
+                tempAlert.style.borderRadius = '5px';
+                tempAlert.style.zIndex = '1000';
+                document.body.appendChild(tempAlert);
+                setTimeout(() => {
+                    document.body.removeChild(tempAlert);
+                }, 3000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            if (mobileMenuButton && sidebar) {
+                mobileMenuButton.addEventListener('click', () => {
+                    sidebar.classList.toggle('-translate-x-full');
+                });
+            }
+
+            const links = document.querySelectorAll('.sidebar-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            const observerOptions = {
+                root: null, 
+                rootMargin: '0px', // Adjust as needed, e.g. '-80px 0px -80px 0px' if you have sticky headers/footers
+                threshold: 0.3 // Percentage of element in view to trigger
+            };
+
+            const observer = new IntersectionObserver(entries => {
+                let activeSectionId = null;
+                // Find the topmost visible section
+                let topmostVisibleEntry = null;
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        if (!topmostVisibleEntry || entry.boundingClientRect.top < topmostVisibleEntry.boundingClientRect.top) {
+                            topmostVisibleEntry = entry;
+                        }
+                    }
+                }
+                if (topmostVisibleEntry) {
+                    activeSectionId = topmostVisibleEntry.target.id;
+                }
+
+
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href && href.substring(1) === activeSectionId) {
+                        link.classList.add('active');
+                        // Optional: If it's a sub-link, also activate its parent
+                        const parentLi = link.closest('li');
+                        if (parentLi) {
+                            const parentUl = parentLi.parentElement;
+                            if (parentUl && parentUl.classList.contains('ml-4')) { // Check if it's a sub-list
+                                const mainLink = parentUl.previousElementSibling;
+                                if (mainLink && mainLink.classList.contains('sidebar-link')) {
+                                   // mainLink.classList.add('active'); // Decide if parent should also be active
+                                }
+                            }
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                             // Close sidebar on mobile after click
+                            if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 768) { // 768px is md breakpoint
+                                sidebar.classList.add('-translate-x-full');
+                            }
+                        }
+                    }
+                });
+            });
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
+```
+The key changes are:
+1.  In `article#video-support`, the `div` wrapping the `pre` tag now has `w-full`:
+    ```html
+    <div class="relative w-full">
+        <pre><code class="language-json">...</code></pre>
+        <button class="copy-button" onclick="copyToClipboard(this)">Copiar</button>
+    </div>
+    ```
+2.  Similarly, in `section#example-json`, the `div` wrapping that `pre` tag also gets `w-full`:
+    ```html
+    <div class="relative w-full">
+        <pre><code class="language-json">...</code></pre>
+        <button class="copy-button" onclick="copyToClipboard(this)">Copiar</button>
+    </div>
+    ```
+I also updated the `copyToClipboard` function to use a custom message div instead of `alert()` for error feedback, as per the project requirements.
+
+This should now correctly constrain the code blocks within the main content area, preventing them from overlapping with the sideb
