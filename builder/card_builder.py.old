@@ -1,0 +1,468 @@
+#!/usr/bin/env python3
+"""
+Minimal Gradio Interface for Infogen Content Generation
+Simple UI for testing and generating structured content
+"""
+
+import gradio as gr
+import json
+import asyncio
+from typing import Dict, List, Any, Tuple, Optional
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv("../.env")
+
+# Import our modules
+from json_database import JSONDatabaseManager, migrate_existing_lunar_cards
+from core_models import Creator, ContentSet, ContentCard, ContentType, NavigationType
+from core_models import generate_creator_id, generate_set_id, generate_card_id
+
+# Try to import unified generator
+try:
+    from unified_generator import get_unified_generator, ContentGenerationRequest
+    UNIFIED_GENERATOR_AVAILABLE = True
+except ImportError:
+    UNIFIED_GENERATOR_AVAILABLE = False
+    print("Warning: unified_generator not available")
+
+
+class InfogenApp:
+    """Simple Gradio app for content generation and testing"""
+    
+    def __init__(self, data_dir: str = "data"):
+        self.db = JSONDatabaseManager(data_dir)
+        self.content_generator = None
+        self.available_providers = []
+        
+        # Auto-initialize content generator
+        self._auto_initialize_generator()
+        
+        # Initialize with existing data if available
+        self._initialize_database()
+    
+    def _auto_initialize_generator(self):
+        """Auto-initialize content generator on startup"""
+        try:
+            # Load API keys from environment
+            anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+            google_key = os.getenv("GOOGLE_API_KEY", "")
+            openai_key = os.getenv("OPENAI_API_KEY", "")
+            
+            if UNIFIED_GENERATOR_AVAILABLE and any([
+                anthropic_key and anthropic_key != "your-anthropic-api-key-here",
+                google_key and google_key != "your-google-gemini-api-key-here", 
+                openai_key and openai_key != "your-openai-api-key-here"
+            ]):
+                self.content_generator = get_unified_generator(
+                    anthropic_key=anthropic_key if anthropic_key != "your-anthropic-api-key-here" else None,
+                    gemini_key=google_key if google_key != "your-google-gemini-api-key-here" else None,
+                    openai_key=openai_key if openai_key != "your-openai-api-key-here" else None
+                )
+                print("Content generator auto-initialized")
+        except Exception as e:
+            print(f"Auto-initialization failed: {e}")
+    
+    def _initialize_database(self):
+        """Initialize database with existing data"""
+        try:
+            migrate_existing_lunar_cards(self.db)
+            print("Existing lunar cards migrated successfully")
+        except Exception as e:
+            print(f"No existing data to migrate: {e}")
+    
+    def validate_creator_input(self, display_name: str, description: str) -> Optional[str]:
+        """Validate creator input and return error message if invalid"""
+        if not display_name or not display_name.strip():
+            return "Display Name is required"
+        if len(display_name.strip()) < 2:
+            return "Display Name must be at least 2 characters"
+        if description and len(description) > 500:
+            return "Description must be less than 500 characters"
+        return None
+    
+    def create_new_creator(self, display_name: str, description: str,
+                          categories: List[str],
+                          use_youtube: bool, youtube_handle: str,
+                          use_instagram: bool, instagram_handle: str, 
+                          use_tiktok: bool, tiktok_handle: str,
+                          use_website: bool, website_url: str,
+                          creator_image_url: str, cover_image_url: str) -> Tuple[str, str]:
+        """Create a new content creator with multiple platforms"""
+        
+        # Validate input
+        error = self.validate_creator_input(display_name, description)
+        if error:
+            return error, ""
+        
+        # Clean input
+        display_name = display_name.strip()
+        description = description.strip() if description else ""
+        
+        try:
+            # Build social links dict
+            social_links = {}
+            if use_youtube and youtube_handle.strip():
+                social_links["youtube"] = youtube_handle.strip()
+            if use_instagram and instagram_handle.strip():
+                social_links["instagram"] = instagram_handle.strip()
+            if use_tiktok and tiktok_handle.strip():
+                social_links["tiktok"] = tiktok_handle.strip()
+            if use_website and website_url.strip():
+                social_links["website"] = website_url.strip()
+            
+            # Convert category strings to ContentType enums
+            category_enums = []
+            for cat in categories:
+                try:
+                    category_enums.append(ContentType(cat))
+                except ValueError:
+                    pass  # Skip invalid categories
+            
+            # Generate unique creator ID
+            base_handle = next((h for h in [youtube_handle, instagram_handle, tiktok_handle] if h.strip()), display_name)
+            creator_id = generate_creator_id(base_handle)
+            
+            creator = Creator(
+                creator_id=creator_id,
+                display_name=display_name,
+                platform="multi",  # Since we support multiple platforms now
+                platform_handle="",  # Not used anymore
+                description=description,
+                categories=category_enums,
+                social_links=social_links,
+                avatar_url=creator_image_url.strip() if creator_image_url.strip() else None,
+                banner_url=cover_image_url.strip() if cover_image_url.strip() else None
+            )
+            
+            if self.db.add_creator(creator):
+                creator_json = json.dumps(creator.to_dict(), indent=2, ensure_ascii=False)
+                return f"Creator '{display_name}' created successfully", creator_json
+            else:
+                return f"Creator with similar ID already exists", ""
+                
+        except Exception as e:
+            return f"Error creating creator: {str(e)}", ""
+    
+    def list_existing_creators(self) -> str:
+        """List all existing creators"""
+        creators = self.db.list_creators()
+        if not creators:
+            return "No creators found"
+        
+        creator_list = []
+        for creator in creators:
+            creator_list.append(f"• {creator['display_name']} (@{creator['platform_handle']})")
+        
+        return "\n".join(creator_list)
+    
+    def get_available_providers(self) -> List[str]:
+        """Get list of available provider options for dropdown"""
+        if self.content_generator and hasattr(self.content_generator, 'get_available_providers'):
+            return [provider.value for provider in self.content_generator.get_available_providers()]
+        return ["gemini_openai", "anthropic", "openai"]  # Default options
+    
+    def get_generator_status(self) -> str:
+        """Get current generator status"""
+        if self.content_generator:
+            providers = self.get_available_providers()
+            return f"Ready - {len(providers)} providers available: {', '.join(providers)}"
+        else:
+            return "Not initialized - check .env file for API keys"
+    
+    def generate_content_preview(self, creator_id: str, topic: str, 
+                               content_type: str, card_count: int) -> Tuple[str, str]:
+        """Generate a preview of content structure"""
+        if not self.content_generator:
+            return "❌ Content generator not initialized. Please provide API key first.", ""
+        
+        if not creator_id or not topic:
+            return "❌ Creator and topic are required", ""
+        
+        try:
+            # Check if creator exists
+            creator = self.db.get_creator(creator_id)
+            if not creator:
+                return f"❌ Creator '{creator_id}' not found", ""
+            
+            # Create content generation request
+            request = ContentGenerationRequest(
+                topic=topic,
+                content_type=ContentType(content_type),
+                card_count=card_count
+            )
+            
+            # For now, create a mock structure since we can't run async in Gradio easily
+            # To use real generation, need to implement async wrapper
+            mock_structure = {
+                "set_metadata": {
+                    "title": f"Explorando {topic.title()}",
+                    "description": f"Conteúdo educativo sobre {topic}",
+                    "creator": creator['display_name'],
+                    "card_count": card_count,
+                    "content_type": content_type
+                }
+            }
+            
+            preview_json = json.dumps(preview_structure, indent=2, ensure_ascii=False)
+            return f"Content preview generated with {provider_choice}", preview_json
+            
+        except Exception as e:
+            return f"Error generating preview: {str(e)}", ""
+    
+    def get_homepage_preview(self) -> str:
+        """Generate homepage structure preview"""
+        try:
+            homepage_data = self.db.generate_homepage_data()
+            return json.dumps(homepage_data, indent=2, ensure_ascii=False)
+        except Exception as e:
+            return f"Error generating homepage: {str(e)}"
+    
+    def create_interface(self) -> gr.Blocks:
+        """Create the improved Gradio interface"""
+        
+        # Category choices for dropdown
+        category_choices = [
+            "technology_gaming", "health_fitness", "food_cooking", 
+            "travel_lifestyle", "education_science", "entertainment_popculture",
+            "business_finance", "arts_crafts", "parenting_family", 
+            "fashion_beauty", "space_exploration", "wellness", 
+            "nutrition", "earth_mysteries", "general"
+        ]
+        
+        with gr.Blocks(title="Infogen - Content Generator") as interface:
+            gr.Markdown("# Infogen - Structured Content Generator")
+            gr.Markdown("Generate educational content with structured validation for the card explorer system.")
+            
+            with gr.Tab("Setup"):
+                gr.Markdown("## System Status")
+                gr.Markdown("Content generator auto-initializes on startup using .env file API keys.")
+                
+                # Simple status display
+                status_display = gr.Textbox(
+                    label="Generator Status",
+                    value=self.get_generator_status(),
+                    interactive=False
+                )
+            
+            with gr.Tab("Creators"):
+                gr.Markdown("## Content Creator Management")
+                
+                with gr.Row():
+                    with gr.Column():
+                        # Basic Information
+                        gr.Markdown("### Basic Information")
+                        creator_name = gr.Textbox(
+                            label="Display Name", 
+                            placeholder="Content Creator Name or Channel Title"
+                        )
+                        creator_description = gr.Textbox(
+                            label="Description",
+                            placeholder="Brief description of content focus and style",
+                            lines=3
+                        )
+                        
+                        # Categories
+                        creator_categories = gr.Dropdown(
+                            choices=category_choices,
+                            label="Content Categories",
+                            multiselect=True,
+                            value=[]
+                        )
+                        
+                        # Platform Handles
+                        gr.Markdown("### Platform Handles")
+                        
+                        with gr.Row():
+                            use_youtube = gr.Checkbox(label="Use YouTube", value=False)
+                            youtube_handle = gr.Textbox(
+                                label="YouTube Handle", 
+                                placeholder="@channelname"
+                            )
+                        
+                        with gr.Row():
+                            use_instagram = gr.Checkbox(label="Use Instagram", value=False)
+                            instagram_handle = gr.Textbox(
+                                label="Instagram Handle",
+                                placeholder="@username"
+                            )
+                        
+                        with gr.Row():
+                            use_tiktok = gr.Checkbox(label="Use TikTok", value=False)
+                            tiktok_handle = gr.Textbox(
+                                label="TikTok Handle",
+                                placeholder="@username"
+                            )
+                        
+                        with gr.Row():
+                            use_website = gr.Checkbox(label="Use Website", value=False)
+                            website_url = gr.Textbox(
+                                label="Website URL",
+                                placeholder="https://website.com"
+                            )
+                        
+                        # Images
+                        gr.Markdown("### Images")
+                        creator_image_url = gr.Textbox(
+                            label="Creator Image URL",
+                            placeholder="https://example.com/creator-photo.jpg"
+                        )
+                        cover_image_url = gr.Textbox(
+                            label="Cover Image URL", 
+                            placeholder="https://example.com/cover-banner.jpg"
+                        )
+                        
+                        create_creator_btn = gr.Button("Create Creator", variant="primary")
+                    
+                    with gr.Column():
+                        creator_status = gr.Textbox(label="Creation Status", interactive=False)
+                        creator_json = gr.JSON(label="Created Creator Data")
+                
+                create_creator_btn.click(
+                    fn=self.create_new_creator,
+                    inputs=[
+                        creator_name, creator_description, creator_categories,
+                        use_youtube, youtube_handle,
+                        use_instagram, instagram_handle, 
+                        use_tiktok, tiktok_handle,
+                        use_website, website_url,
+                        creator_image_url, cover_image_url
+                    ],
+                    outputs=[creator_status, creator_json]
+                )
+                
+                gr.Markdown("### Existing Creators")
+                list_creators_btn = gr.Button("List All Creators")
+                creators_list = gr.Textbox(label="Creators", lines=5, interactive=False)
+                
+                list_creators_btn.click(
+                    fn=self.list_existing_creators,
+                    outputs=[creators_list]
+                )
+            
+            with gr.Tab("Content Generation"):
+                gr.Markdown("## Generate Content Sets")
+                gr.Markdown("**Note**: Gemini is ~20x cheaper than Claude for content generation")
+                
+                with gr.Row():
+                    with gr.Column():
+                        gen_creator_id = gr.Textbox(
+                            label="Creator ID",
+                            placeholder="creator_id_from_above"
+                        )
+                        gen_topic = gr.Textbox(
+                            label="Topic",
+                            placeholder="fermented foods"
+                        )
+                        gen_content_type = gr.Dropdown(
+                            choices=category_choices,
+                            label="Content Type",
+                            value="nutrition"
+                        )
+                        gen_card_count = gr.Slider(
+                            minimum=3,
+                            maximum=20,
+                            value=10,
+                            step=1,
+                            label="Number of Cards"
+                        )
+                        
+                        # Provider selection dropdown
+                        provider_dropdown = gr.Dropdown(
+                            choices=["gemini_openai", "anthropic", "openai"],
+                            label="LLM Provider",
+                            value="gemini_openai",
+                            info="Gemini recommended for cost efficiency"
+                        )
+                        
+                        generate_preview_btn = gr.Button("Generate Preview", variant="primary")
+                    
+                    with gr.Column():
+                        generation_status = gr.Textbox(label="Generation Status", interactive=False)
+                        content_preview = gr.JSON(label="Content Structure Preview")
+                
+                generate_preview_btn.click(
+                    fn=self.generate_content_preview,
+                    inputs=[gen_creator_id, gen_topic, gen_content_type, gen_card_count, provider_dropdown],
+                    outputs=[generation_status, content_preview]
+                )
+                
+                gr.Markdown("### Cost Comparison")
+                gr.Markdown("""
+                | Provider | Cost per 20 Cards | Notes |
+                |----------|-------------------|-------|
+                | **Gemini 2.0 Flash** | **$0.01** | **Recommended** (Google credits) |
+                | GPT-4o mini | $0.01 | Good alternative |
+                | Claude 3.5 Haiku | $0.02 | Higher quality, more expensive |
+                """)
+            
+            with gr.Tab("Homepage Preview"):
+                gr.Markdown("## Homepage Structure Preview")
+                gr.Markdown("Preview the Netflix-style content discovery interface.")
+                
+                homepage_btn = gr.Button("Generate Homepage Preview")
+                homepage_json = gr.JSON(label="Homepage Structure")
+                
+                homepage_btn.click(
+                    fn=self.get_homepage_preview,
+                    outputs=[homepage_json]
+                )
+            
+            with gr.Tab("Database Status"):
+                gr.Markdown("## System Information")
+                
+                def get_system_status():
+                    creators = len(self.db.list_creators())
+                    sets = len(self.db._load_collection(self.db.content_sets_file))
+                    cards = len(self.db._load_collection(self.db.cards_file))
+                    
+                    status = f"""**Database Statistics:**
+- Creators: {creators}
+- Content Sets: {sets}  
+- Cards: {cards}
+
+**Data Directory:** {self.db.data_dir}
+
+**Generator Status:** {self.get_generator_status()}
+
+**Available Providers:** {len(self.get_available_providers())}
+
+**Next Steps:**
+1. Add your Google API key to .env file for cost-effective generation
+2. Create content creators with multiple platforms
+3. Generate content sets with Gemini (~$0.01 per 20 cards)
+"""
+                    return status
+                
+                status_btn = gr.Button("Check System Status")
+                system_status = gr.Markdown()
+                
+                status_btn.click(
+                    fn=get_system_status,
+                    outputs=[system_status]
+                )
+        
+        return interface
+
+
+def main():
+    """Launch the Infogen application"""
+    print("Starting Infogen Content Generator...")
+    
+    # Initialize the app with auto-detection
+    app = InfogenApp()
+    
+    # Create and launch interface
+    interface = app.create_interface()
+    interface.launch(
+        server_name="0.0.0.0",
+        server_port=5002,
+        share=False,
+        debug=True
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+.
+..
+.env
+.git
+.gitignore
+builder
+builder-venv
+list.txt
+viewer
+web_specs.html

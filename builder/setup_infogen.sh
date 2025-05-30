@@ -13,20 +13,19 @@ fi
 source venv/bin/activate
 
 echo "📦 Installing dependencies..."
-pip install -r infogen/requirements.txt
+pip install -r requirements.txt
 
 echo "🔧 Setting up data directories..."
-mkdir -p infogen/data
+mkdir -p data
 
 echo "📋 Testing database initialization..."
-cd infogen
 python json_database.py
 
 echo "✅ Infogen setup complete!"
 echo ""
 echo "To run the Infogen app:"
-echo "1. cd infogen"
-echo "2. source ../venv/bin/activate" 
+echo "1. cd builder"
+echo "2. source venv/bin/activate" 
 echo "3. export ANTHROPIC_API_KEY='your-api-key'"
 echo "4. python gradio_app.py"
 echo ""

@@ -70,6 +70,19 @@ class JSONDatabaseManager:
         """List all creators"""
         return self._load_collection(self.creators_file)
     
+    def delete_creator(self, creator_id: str) -> bool:
+        """Delete a creator by ID"""
+        creators = self._load_collection(self.creators_file)
+        original_count = len(creators)
+        
+        # Remove creator with matching ID
+        creators = [c for c in creators if c['creator_id'] != creator_id]
+        
+        if len(creators) < original_count:
+            self._save_collection(self.creators_file, creators)
+            return True
+        return False
+    
     # Content Set operations  
     def add_content_set(self, content_set: ContentSet) -> bool:
         """Add a new content set"""
@@ -207,7 +220,7 @@ def migrate_existing_lunar_cards(db: JSONDatabaseManager,
         platform="website",
         platform_handle="@lunar_explorer",
         description="Exploração lunar educativa - conteúdo original do sistema",
-        categories=[ContentType.SPACE]
+        categories=[ContentType.SPACE_EXPLORATION]
     )
     
     # Add creator
@@ -224,7 +237,7 @@ def migrate_existing_lunar_cards(db: JSONDatabaseManager,
             creator_id=default_creator.creator_id,
             title="Exploração Lunar - História Completa",
             description="Jornada completa pela conquista da Lua",
-            category=ContentType.SPACE,
+            category=ContentType.SPACE_EXPLORATION,
             card_count=len(existing_data['cards']),
             supported_navigation=[NavigationType.TIMELINE, NavigationType.THEMATIC, NavigationType.RANDOM],
             status="published"

@@ -13,12 +13,21 @@ import uuid
 
 
 class ContentType(Enum):
-    """Basic content type classification"""
-    SPACE = "space"
+    """Common content categories for creators"""
+    TECHNOLOGY_GAMING = "technology_gaming"
+    HEALTH_FITNESS = "health_fitness"
+    FOOD_COOKING = "food_cooking"
+    TRAVEL_LIFESTYLE = "travel_lifestyle"
+    EDUCATION_SCIENCE = "education_science"
+    ENTERTAINMENT_POPCULTURE = "entertainment_popculture"
+    BUSINESS_FINANCE = "business_finance"
+    ARTS_CRAFTS = "arts_crafts"
+    PARENTING_FAMILY = "parenting_family"
+    FASHION_BEAUTY = "fashion_beauty"
+    SPACE_EXPLORATION = "space_exploration"
     WELLNESS = "wellness"
     NUTRITION = "nutrition"
     EARTH_MYSTERIES = "earth_mysteries"
-    SOLAR_SYSTEM = "solar_system"
     GENERAL = "general"
 
 
