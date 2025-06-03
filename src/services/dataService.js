@@ -44,7 +44,7 @@ export const getContentSetById = async (setId) => {
     return null;
   }
   
-  // Add creator information
+  // Add creator information (same logic as getHomepageData)
   const creatorsMap = new Map(creators.map(creator => [creator.creator_id, creator]));
   return {
     ...contentSet,

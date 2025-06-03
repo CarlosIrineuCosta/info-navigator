@@ -3,6 +3,7 @@ import React from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'; // Using HashRouter for GitHub Pages compatibility
 import HomePage from './pages/HomePage';
 import ContentSetPage from './pages/ContentSetPage';
+import ContentSetPageDebug from './pages/ContentSetPageDebug';
 import NotFoundPage from './pages/NotFoundPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';

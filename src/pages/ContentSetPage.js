@@ -23,8 +23,8 @@ const ContentSetPage = () => {
         const setDetails = await getContentSetById(setId);
         if (setDetails) {
           setContentSet(setDetails);
-          const setCards = await getCardsForSet(setId);
-          setCards(setCards);
+          const cardsForSet = await getCardsForSet(setId);
+          setCards(cardsForSet);
         } else {
           setError(t('pageNotFound'));
         }
