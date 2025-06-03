@@ -1,0 +1,354 @@
+#!/usr/bin/env python3
+"""
+Content Generator Manager - Handle content generation and preview
+"""
+
+import json
+import os
+from typing import Dict, List, Any, Tuple, Optional
+
+# Try to import unified generator
+try:
+    from unified_generator import get_unified_generator, ContentGenerationRequest
+    UNIFIED_GENERATOR_AVAILABLE = True
+except ImportError:
+    UNIFIED_GENERATOR_AVAILABLE = False
+    print("Warning: unified_generator not available")
+
+from core_models import ContentType
+from json_database import JSONDatabaseManager
+
+
+class ContentManager:
+    """Manages content generation and preview operations"""
+    
+    def __init__(self, db: JSONDatabaseManager):
+        self.db = db
+        self.content_generator = None
+        self._auto_initialize_generator()
+    
+    def _auto_initialize_generator(self):
+        """Auto-initialize content generator on startup"""
+        try:
+            # Load API keys from environment
+            anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+            google_key = os.getenv("GOOGLE_API_KEY", "")
+            openai_key = os.getenv("OPENAI_API_KEY", "")
+            
+            if UNIFIED_GENERATOR_AVAILABLE and any([
+                anthropic_key and anthropic_key != "your-anthropic-api-key-here",
+                google_key and google_key != "your-google-gemini-api-key-here", 
+                openai_key and openai_key != "your-openai-api-key-here"
+            ]):
+                self.content_generator = get_unified_generator(
+                    anthropic_key=anthropic_key if anthropic_key != "your-anthropic-api-key-here" else None,
+                    gemini_key=google_key if google_key != "your-google-gemini-api-key-here" else None,
+                    openai_key=openai_key if openai_key != "your-openai-api-key-here" else None
+                )
+                print("Content generator auto-initialized")
+        except Exception as e:
+            print(f"Auto-initialization failed: {e}")
+    
+    def extract_topics_with_ai(self, content: str, guidance: str, creator_name: str, provider: str = "gemini_openai") -> List[str]:
+        """Extract topics from content using AI"""
+        try:
+            if not self.content_generator:
+                raise Exception("Content generator not initialized")
+            
+            # Sanitize content first
+            sanitized_content = self.sanitize_content(content)
+            print(f"\n🔍 DEBUG: Topic Extraction")
+            print(f"Original content length: {len(content)}")
+            print(f"Sanitized content length: {len(sanitized_content)}")
+            print(f"First 200 chars of sanitized: {sanitized_content[:200]}...")
+            
+            # Create extraction prompt in Portuguese
+            prompt = f"""
+Você é um especialista em análise de conteúdo educacional em português brasileiro.
+
+Analise o seguinte conteúdo e extraia 5-10 tópicos específicos para criação de conteúdo educacional.
+
+Criador: {creator_name}
+Orientação de Conteúdo: {guidance}
+
+Conteúdo para analisar:
+{sanitized_content}
+
+Requisitos:
+- Extraia 5-10 tópicos específicos em português
+- Cada tópico deve ter 5-50 caracteres
+- Tópicos devem ser relevantes ao estilo do criador e orientação fornecida
+- Retorne APENAS a lista de tópicos, um por linha
+- Sem numeração, sem bullets, sem texto adicional
+- Foque em temas que gerariam bom conteúdo educacional
+
+Exemplo de formato correto:
+benefícios da meditação
+equilíbrio emocional
+redução do estresse
+práticas de mindfulness
+rotinas de autocuidado
+"""
+            
+            print(f"\n📤 PROMPT BEING SENT TO GEMINI:")
+            print("=" * 60)
+            print(prompt)
+            print("=" * 60)
+            
+            # Call the unified generator
+            from unified_generator import LLMProvider
+            provider_enum = LLMProvider(provider)
+            
+            print(f"\n🤖 Calling AI with provider: {provider_enum}")
+            
+            import asyncio
+            result = asyncio.run(self.content_generator.generate_content(prompt, provider_enum))
+            
+            print(f"\n📥 FULL AI RESPONSE:")
+            print("=" * 60)
+            print(f"Type: {type(result)}")
+            print(f"Keys: {list(result.keys()) if isinstance(result, dict) else 'Not a dict'}")
+            print(f"Full result: {result}")
+            print("=" * 60)
+            
+            # Parse topics from result with robust parsing
+            if 'content' in result:
+                raw_content = result['content']
+                print(f"\n📝 RAW CONTENT FIELD:")
+                print(f"Length: {len(raw_content)}")
+                print(f"Content: '{raw_content}'")
+                
+                topics = self.parse_topics_from_response(raw_content)
+                print(f"\n🎯 PARSED TOPICS: {topics}")
+                return topics
+            else:
+                print(f"\n❌ No 'content' field in AI response")
+                print(f"Available fields: {list(result.keys()) if isinstance(result, dict) else 'None'}")
+                return []
+            
+        except Exception as e:
+            print(f"\n💥 Topic extraction failed: {e}")
+            import traceback
+            traceback.print_exc()
+            return []
+    
+    def sanitize_content(self, content: str) -> str:
+        """Remove special characters that might confuse the LLM"""
+        import re
+        
+        # Remove emojis and special Unicode characters, keep basic Portuguese punctuation
+        # Keep: letters, numbers, spaces, basic punctuation, Portuguese accents
+        sanitized = re.sub(r'[^\w\s\.,;:!?\-áàâãéèêíìîóòôõúùûç]', ' ', content, flags=re.UNICODE)
+        
+        # Normalize whitespace
+        sanitized = re.sub(r'\s+', ' ', sanitized).strip()
+        
+        return sanitized
+    
+    def parse_topics_from_response(self, response_text: str) -> List[str]:
+        """Parse topics from various AI response formats"""
+        import re
+        
+        topics = []
+        lines = response_text.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # Remove various formatting:
+            # Remove numbering: "1. topic" -> "topic"
+            line = re.sub(r'^\d+[\.\)]\s*', '', line)
+            # Remove bullets: "• topic" or "- topic" -> "topic"  
+            line = re.sub(r'^[•\-\*]\s*', '', line)
+            # Remove brackets: "[topic]" -> "topic"
+            line = re.sub(r'^\[.*?\]\s*', '', line)
+            # Remove parentheses: "(topic)" -> "topic"
+            line = re.sub(r'^\(.*?\)\s*', '', line)
+            
+            line = line.strip()
+            
+            # Validate topic length and add if valid
+            if 5 <= len(line) <= 50 and line not in topics:
+                topics.append(line)
+        
+        return topics[:10]  # Max 10 topics
+    
+    def generate_cards_from_topics(self, creator_name: str, guidance: str, topics: List[str], provider: str = "gemini_openai") -> bool:
+        """Generate content cards from validated topics"""
+        try:
+            if not self.content_generator:
+                raise Exception("Content generator not initialized")
+            
+            # Get creator info
+            creators = self.db.list_creators()
+            creator_data = next((c for c in creators if c['display_name'] == creator_name), None)
+            
+            if not creator_data:
+                raise Exception(f"Creator '{creator_name}' not found")
+            
+            # Determine content style based on creator categories
+            creator_style = self.determine_creator_style(creator_data.get('categories', []))
+            
+            # Generate cards for each topic
+            generated_cards = []
+            
+            for i, topic in enumerate(topics, 1):
+                card_prompt = self.create_card_generation_prompt(
+                    creator_data, topic, guidance, creator_style, i, len(topics)
+                )
+                
+                # Generate individual card
+                from unified_generator import LLMProvider
+                provider_enum = LLMProvider(provider)
+                
+                import asyncio
+                result = asyncio.run(self.content_generator.generate_content(card_prompt, provider_enum))
+                
+                if 'content' in result:
+                    # Parse and save card (simplified for now)
+                    card_data = {
+                        'topic': topic,
+                        'content': result['content'],
+                        'creator_id': creator_data['creator_id'],
+                        'guidance': guidance
+                    }
+                    generated_cards.append(card_data)
+            
+            # TODO: Save to database properly
+            print(f"Generated {len(generated_cards)} cards for {creator_name}")
+            return True
+            
+        except Exception as e:
+            print(f"Card generation failed: {e}")
+            return False
+    
+    def determine_creator_style(self, categories: List[str]) -> str:
+        """Determine content style based on creator categories"""
+        if any(cat in ['wellness', 'health_fitness', 'nutrition'] for cat in categories):
+            return 'wellness'
+        elif any(cat in ['space_exploration', 'education_science', 'technology_gaming'] for cat in categories):
+            return 'scientific'
+        else:
+            return 'default'
+    
+    def create_card_generation_prompt(self, creator_data: dict, topic: str, guidance: str, style: str, card_num: int, total_cards: int) -> str:
+        """Create a prompt for generating a single content card"""
+        
+        style_prompts = {
+            'wellness': f"""
+Crie conteúdo educacional caloroso e pessoal sobre '{topic}' para {creator_data['display_name']}.
+
+Diretrizes de Estilo:
+- Use linguagem inclusiva ('a gente', 'nós')
+- Tom pessoal e acolhedor
+- Foque na conexão emocional e benefícios práticos
+- Inclua encorajamento gentil
+- Contexto brasileiro quando apropriado
+
+O conteúdo deve ser educativo mas caloroso e acolhedor.
+""",
+            'scientific': f"""
+Crie conteúdo educacional factual sobre '{topic}' para {creator_data['display_name']}.
+
+Diretrizes de Estilo:
+- Explicações claras e precisas
+- Tom educativo e informativo
+- Inclua fatos interessantes
+- Adequado para público geral
+- Envolvente mas autoritativo
+
+O conteúdo deve ser informativo e fascinante.
+""",
+            'default': f"""
+Crie conteúdo educacional envolvente sobre '{topic}' para {creator_data['display_name']}.
+
+O conteúdo deve ser informativo, bem estruturado e envolvente para um público geral.
+"""
+        }
+        
+        base_prompt = style_prompts.get(style, style_prompts['default'])
+        
+        return f"""
+{base_prompt}
+
+Tópico: {topic}
+Orientação: {guidance}
+Criador: {creator_data['display_name']}
+Card {card_num} de {total_cards}
+
+Gere um card de conteúdo educacional completo com:
+1. Título envolvente (formato de pergunta preferido)
+2. Resumo breve (2-3 sentenças)
+3. Conteúdo educacional detalhado (200-400 palavras)
+4. 3-5 palavras-chave relevantes
+
+Formate sua resposta claramente mas não se preocupe com JSON rigoroso - foque na qualidade do conteúdo.
+Escreva em português brasileiro.
+"""
+    
+    def get_available_providers(self) -> List[str]:
+        """Get list of available provider options for dropdown"""
+        if self.content_generator and hasattr(self.content_generator, 'get_available_providers'):
+            return [provider.value for provider in self.content_generator.get_available_providers()]
+        return ["gemini_openai", "anthropic", "openai"]  # Default options
+    
+    def get_generator_status(self) -> str:
+        """Get current generator status"""
+        if self.content_generator:
+            providers = self.get_available_providers()
+            return f"Ready - {len(providers)} providers available: {', '.join(providers)}"
+        else:
+            return "Not initialized - check .env file for API keys"
+    
+    def generate_content_preview(self, creator_id: str, topic: str, 
+                               content_type: str, card_count: int, provider_choice: str) -> Tuple[str, str]:
+        """Generate a preview of content structure with provider choice"""
+        if not self.content_generator:
+            return "Content generator not initialized. Please check .env file for API keys.", ""
+        
+        if not creator_id or not topic:
+            return "Creator ID and topic are required", ""
+        
+        try:
+            # Check if creator exists
+            creator = self.db.get_creator(creator_id)
+            if not creator:
+                return f"Creator '{creator_id}' not found", ""
+            
+            # Create preview structure
+            preview_structure = {
+                "generation_request": {
+                    "creator": creator['display_name'],
+                    "topic": topic,
+                    "content_type": content_type,
+                    "card_count": card_count,
+                    "provider": provider_choice
+                },
+                "sample_output_structure": {
+                    "title": f"Interesting question about {topic}?",
+                    "summary": f"Educational summary about {topic}.",
+                    "detailed_content": f"Detailed explanation about {topic} with interesting information...",
+                    "keywords": [topic, "education", "learning"],
+                    "difficulty_tags": ["intermediate"],
+                    "domain_specific": {
+                        "content_category": content_type,
+                        "additional_metadata": "Domain-specific fields"
+                    }
+                }
+            }
+            
+            preview_json = json.dumps(preview_structure, indent=2, ensure_ascii=False)
+            return f"Content preview generated with {provider_choice}", preview_json
+            
+        except Exception as e:
+            return f"Error generating preview: {str(e)}", ""
+    
+    def get_homepage_preview(self) -> str:
+        """Generate homepage structure preview"""
+        try:
+            homepage_data = self.db.generate_homepage_data()
+            return json.dumps(homepage_data, indent=2, ensure_ascii=False)
+        except Exception as e:
+            return f"Error generating homepage: {str(e)}"

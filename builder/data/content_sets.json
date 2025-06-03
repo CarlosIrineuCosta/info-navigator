@@ -1,1 +1,80 @@
-[]
+[
+  {
+    "set_id": "lunar_explorer_original_space_exploration_20250602_2054",
+    "creator_id": "lunar_explorer_original",
+    "title": "Conteúdo sobre Conteúdo educativo sobre saúde e hidratação...",
+    "description": "Conjunto de cartões educativos gerados para Lunar Explorer - Conteúdo Original. Orientação: Conteúdo educativo sobre saúde e hidratação",
+    "category": "space_exploration",
+    "thumbnail_url": null,
+    "banner_url": null,
+    "card_count": 3,
+    "estimated_time_minutes": 30,
+    "difficulty_level": "intermediate",
+    "target_audience": "general_public",
+    "supported_navigation": [
+      "thematic",
+      "random"
+    ],
+    "content_style": "question_first",
+    "tags": [],
+    "prerequisites": [],
+    "learning_outcomes": [],
+    "stats": {},
+    "status": "published",
+    "language": "pt-BR",
+    "created_at": "2025-06-02T23:54:43.677177",
+    "updated_at": "2025-06-02T23:54:43.677180"
+  },
+  {
+    "set_id": "lunar_explorer_original_space_exploration_20250602_2100",
+    "creator_id": "lunar_explorer_original",
+    "title": "Conteúdo sobre Conteúdo educativo sobre saúde e hidratação...",
+    "description": "Conjunto de cartões educativos gerados para Lunar Explorer - Conteúdo Original. Orientação: Conteúdo educativo sobre saúde e hidratação",
+    "category": "space_exploration",
+    "thumbnail_url": null,
+    "banner_url": null,
+    "card_count": 3,
+    "estimated_time_minutes": 30,
+    "difficulty_level": "intermediate",
+    "target_audience": "general_public",
+    "supported_navigation": [
+      "thematic",
+      "random"
+    ],
+    "content_style": "question_first",
+    "tags": [],
+    "prerequisites": [],
+    "learning_outcomes": [],
+    "stats": {},
+    "status": "published",
+    "language": "pt-BR",
+    "created_at": "2025-06-03T00:00:58.283987",
+    "updated_at": "2025-06-03T00:00:58.283990"
+  },
+  {
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "anacontti50mais_dc55d49d",
+    "title": "Conteúdo sobre Dicas de bem-estar, saúde e cuidados pessoais para...",
+    "description": "Conjunto de cartões educativos gerados para Longe Vida. Orientação: Dicas de bem-estar, saúde e cuidados pessoais para mulheres de 50+",
+    "category": "wellness",
+    "thumbnail_url": null,
+    "banner_url": null,
+    "card_count": 7,
+    "estimated_time_minutes": 30,
+    "difficulty_level": "intermediate",
+    "target_audience": "general_public",
+    "supported_navigation": [
+      "thematic",
+      "random"
+    ],
+    "content_style": "question_first",
+    "tags": [],
+    "prerequisites": [],
+    "learning_outcomes": [],
+    "stats": {},
+    "status": "published",
+    "language": "pt-BR",
+    "created_at": "2025-06-03T00:02:38.500555",
+    "updated_at": "2025-06-03T00:02:38.500557"
+  }
+]

@@ -70,6 +70,14 @@ class JSONDatabaseManager:
         """List all creators"""
         return self._load_collection(self.creators_file)
     
+    def get_creator_by_display_name(self, display_name: str) -> Optional[Dict]:
+        """Get creator by display name"""
+        creators = self._load_collection(self.creators_file)
+        for creator in creators:
+            if creator.get('display_name') == display_name:
+                return creator
+        return None
+    
     def delete_creator(self, creator_id: str) -> bool:
         """Delete a creator by ID"""
         creators = self._load_collection(self.creators_file)
