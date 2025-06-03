@@ -10,11 +10,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables
+# Load environment variables from root folder
 load_dotenv("../.env")
 
 # Import our modules
-from json_database import JSONDatabaseManager, migrate_existing_lunar_cards
+from json_database import JSONDatabaseManager
 from creator_manager import CreatorManager
 from content_manager import ContentManager
 
@@ -27,16 +27,7 @@ class InfogenApp:
         self.creator_manager = CreatorManager(self.db)
         self.content_manager = ContentManager(self.db)
         
-        # Initialize with existing data if available
-        self._initialize_database()
-    
-    def _initialize_database(self):
-        """Initialize database with existing data"""
-        try:
-            migrate_existing_lunar_cards(self.db)
-            print("Existing lunar cards migrated successfully")
-        except Exception as e:
-            print(f"No existing data to migrate: {e}")
+        # No migration - use existing database only
     
     def create_new_creator_with_clear(self, display_name: str, description: str,
                                     categories, use_youtube: bool, youtube_handle: str,
@@ -87,25 +78,174 @@ class InfogenApp:
         
         return status, "", updated_creators
     
+    def get_api_status_display(self):
+        """Get API status display without exposing keys"""
+        try:
+            # Check which API keys are configured
+            anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+            google_key = os.getenv("GOOGLE_API_KEY", "")
+            openai_key = os.getenv("OPENAI_API_KEY", "")
+            
+            status_lines = []
+            
+            # Check Google Gemini
+            if google_key and google_key != "your-google-gemini-api-key-here" and len(google_key) > 10:
+                status_lines.append("✅ **Google Gemini API** - Active")
+            else:
+                status_lines.append("❌ **Google Gemini API** - Not configured")
+            
+            # Check Anthropic Claude
+            if anthropic_key and anthropic_key != "your-anthropic-api-key-here" and len(anthropic_key) > 10:
+                status_lines.append("✅ **Anthropic Claude API** - Active")
+            else:
+                status_lines.append("❌ **Anthropic Claude API** - Not configured")
+            
+            # Check OpenAI
+            if openai_key and openai_key != "your-openai-api-key-here" and len(openai_key) > 10:
+                status_lines.append("✅ **OpenAI API** - Active")
+            else:
+                status_lines.append("❌ **OpenAI API** - Not configured")
+            
+            return "\n\n".join(status_lines)
+            
+        except Exception as e:
+            return f"Error checking API status: {str(e)}"
+    
+    def get_database_status(self):
+        """Get database statistics"""
+        try:
+            creators = len(self.db.list_creators())
+            sets = len(self.db._load_collection(self.db.content_sets_file))
+            cards = len(self.db._load_collection(self.db.cards_file))
+            
+            return f"""**Creators:** {creators}
+**Content Sets:** {sets}
+**Cards:** {cards}
+
+**Data Directory:** `{self.db.data_dir}`
+
+**Status:** {'Ready' if creators > 0 else 'No creators yet'}"""
+        except Exception as e:
+            return f"Error getting database status: {str(e)}"
+    
+    def refresh_all_status(self):
+        """Refresh both API and database status"""
+        return self.get_api_status_display(), self.get_database_status()
+    
+    def get_creator_choices_for_content(self):
+        """Get creator choices for content generation (display names only)"""
+        try:
+            creators = self.db.list_creators()
+            if not creators:
+                return ["No Creators in database. Check necessary file."]
+            return [creator['display_name'] for creator in creators]
+        except Exception as e:
+            return [f"Error loading creators: {str(e)}"]
+    
+    def list_existing_creators(self):
+        """List all existing creators from database"""
+        try:
+            creators = self.db.list_creators()
+            if not creators:
+                return "No creators found in database. Add some creators first."
+            
+            creator_info = []
+            for creator in creators:
+                platforms = []
+                if creator.get('social_links'):
+                    for platform, handle in creator['social_links'].items():
+                        if handle:
+                            platforms.append(f"{platform}: {handle}")
+                
+                platform_str = " | ".join(platforms) if platforms else "No platforms"
+                categories_str = ", ".join(creator.get('categories', []))
+                
+                creator_info.append(f"""
+🎯 {creator['display_name']} (ID: {creator['creator_id']})
+   📝 {creator.get('description', 'No description')}
+   🌐 {platform_str}
+   📂 Categories: {categories_str}
+   📅 Created: {creator.get('created_at', 'Unknown')}
+""")
+            
+            return "\n".join(creator_info)
+        except Exception as e:
+            return f"Error loading creators: {str(e)}"
+        """List all existing creators from database"""
+        try:
+            creators = self.db.list_creators()
+            if not creators:
+                return "No creators found in database. Add some creators first."
+            
+            creator_info = []
+            for creator in creators:
+                platforms = []
+                if creator.get('social_links'):
+                    for platform, handle in creator['social_links'].items():
+                        if handle:
+                            platforms.append(f"{platform}: {handle}")
+                
+                platform_str = " | ".join(platforms) if platforms else "No platforms"
+                categories_str = ", ".join(creator.get('categories', []))
+                
+                creator_info.append(f"""
+🎯 {creator['display_name']} (ID: {creator['creator_id']})
+   📝 {creator.get('description', 'No description')}
+   🌐 {platform_str}
+   📂 Categories: {categories_str}
+   📅 Created: {creator.get('created_at', 'Unknown')}
+""")
+            
+            return "\n".join(creator_info)
+        except Exception as e:
+            return f"Error loading creators: {str(e)}"
+    
+    def show_creator_details(self, creator_id: str):
+        """Show detailed creator information"""
+        if not creator_id:
+            return ""
+        
+        try:
+            creator = self.db.get_creator(creator_id)
+            if not creator:
+                return f"Creator with ID '{creator_id}' not found"
+            
+            return json.dumps(creator, indent=2, ensure_ascii=False)
+        except Exception as e:
+            return f"Error loading creator details: {str(e)}"
+    
     def create_interface(self) -> gr.Blocks:
         """Create the enhanced Gradio interface"""
         
         # Get formatted categories for dropdown
         formatted_categories = self.creator_manager.get_formatted_categories()
+        # Convert from (value, display) to (display, value) for Gradio
         category_choices = [(display, value) for value, display in formatted_categories]
         
         with gr.Blocks(title="Infogen - Content Generator") as interface:
             gr.Markdown("# Infogen - Structured Content Generator")
             gr.Markdown("Generate educational content with structured validation for the card explorer system.")
             
-            with gr.Tab("Setup"):
-                gr.Markdown("## System Status")
-                gr.Markdown("Content generator auto-initializes on startup using .env file API keys.")
+            with gr.Tab("Status"):
+                gr.Markdown("## API Status")
                 
-                status_display = gr.Textbox(
-                    label="Generator Status",
-                    value=self.content_manager.get_generator_status(),
-                    interactive=False
+                with gr.Row():
+                    with gr.Column():
+                        gr.Markdown("### Available Providers")
+                        api_status_display = gr.Markdown(
+                            value=self.get_api_status_display(),
+                        )
+                    
+                    with gr.Column():
+                        gr.Markdown("### Database Statistics")
+                        db_status_display = gr.Markdown(
+                            value=self.get_database_status(),
+                        )
+                
+                refresh_status_btn = gr.Button("Refresh System Status", variant="primary")
+                refresh_status_btn.click(
+                    fn=self.refresh_all_status,
+                    outputs=[api_status_display, db_status_display]
                 )
             
             with gr.Tab("Creators"):
@@ -188,11 +328,12 @@ class InfogenApp:
                         creators_dropdown = gr.Dropdown(
                             label="Select Creator",
                             choices=self.creator_manager.get_creators_for_dropdown(),
-                            interactive=True
+                            interactive=True,
+                            value=None
                         )
                         
                         with gr.Row():
-                            refresh_btn = gr.Button("Refresh List")
+                            refresh_btn = gr.Button("Refresh List", variant="primary")
                             delete_btn = gr.Button("Delete Selected Creator", variant="secondary")
                         
                         gr.Markdown("⚠️ **Warning**: Deleting a creator will also delete all related content and images")
@@ -226,9 +367,13 @@ class InfogenApp:
                     outputs=all_outputs
                 )
                 
+                def refresh_creators():
+                    """Refresh the creators dropdown"""
+                    return gr.Dropdown(choices=self.creator_manager.get_creators_for_dropdown())
+                
                 # Wire up creator management
                 refresh_btn.click(
-                    fn=lambda: self.creator_manager.get_creators_for_dropdown(),
+                    fn=refresh_creators,
                     outputs=[creators_dropdown]
                 )
                 
@@ -237,6 +382,28 @@ class InfogenApp:
                     inputs=[creators_dropdown],
                     outputs=[gr.Textbox(visible=False), creator_display, creators_dropdown]
                 )
+                
+                # Wire up creator selection to show details
+                creators_dropdown.change(
+                    fn=self.show_creator_details,
+                    inputs=[creators_dropdown],
+                    outputs=[creator_display]
+                )
+                
+                # Add a separate tab for listing all creators
+                gr.Markdown("### All Creators List")
+                list_creators_btn = gr.Button("Show All Creators", variant="primary")
+                creators_list = gr.Textbox(
+                    label="All Creators",
+                    lines=15,
+                    interactive=False,
+                    value=""
+                )
+                
+                list_creators_btn.click(
+                    fn=self.list_existing_creators,
+                    outputs=[creators_list]
+                )
             
             with gr.Tab("Content Generation"):
                 gr.Markdown("## Generate Content Sets")
@@ -244,9 +411,11 @@ class InfogenApp:
                 
                 with gr.Row():
                     with gr.Column():
-                        gen_creator_id = gr.Textbox(
-                            label="Creator ID",
-                            placeholder="creator_id_from_above"
+                        gen_creator_dropdown = gr.Dropdown(
+                            label="Select Creator",
+                            choices=self.get_creator_choices_for_content(),
+                            interactive=True,
+                            value=None
                         )
                         gen_topic = gr.Textbox(
                             label="Topic",
@@ -254,8 +423,8 @@ class InfogenApp:
                         )
                         gen_content_type = gr.Dropdown(
                             choices=category_choices,
-                            label="Content Type",
-                            value="nutrition"
+                            label="Content Type", 
+                            value="wellness"
                         )
                         gen_card_count = gr.Slider(
                             minimum=3,
@@ -265,6 +434,7 @@ class InfogenApp:
                             label="Number of Cards"
                         )
                         
+                        # Provider selection dropdown
                         provider_dropdown = gr.Dropdown(
                             choices=["gemini_openai", "anthropic", "openai"],
                             label="LLM Provider",
@@ -273,6 +443,8 @@ class InfogenApp:
                         )
                         
                         generate_preview_btn = gr.Button("Generate Preview", variant="primary")
+                        
+                        refresh_content_creators_btn = gr.Button("Refresh Creators", variant="secondary")
                     
                     with gr.Column():
                         generation_status = gr.Textbox(label="Generation Status", interactive=False)
@@ -280,8 +452,13 @@ class InfogenApp:
                 
                 generate_preview_btn.click(
                     fn=self.content_manager.generate_content_preview,
-                    inputs=[gen_creator_id, gen_topic, gen_content_type, gen_card_count, provider_dropdown],
+                    inputs=[gen_creator_dropdown, gen_topic, gen_content_type, gen_card_count, provider_dropdown],
                     outputs=[generation_status, content_preview]
+                )
+                
+                refresh_content_creators_btn.click(
+                    fn=lambda: gr.Dropdown(choices=self.get_creator_choices_for_content()),
+                    outputs=[gen_creator_dropdown]
                 )
                 
                 gr.Markdown("### Cost Comparison")
@@ -297,66 +474,31 @@ class InfogenApp:
                 gr.Markdown("## Homepage Structure Preview")
                 gr.Markdown("Preview the Netflix-style content discovery interface.")
                 
-                homepage_btn = gr.Button("Generate Homepage Preview")
+                homepage_btn = gr.Button("Generate Homepage Preview", variant="primary")
                 homepage_json = gr.JSON(label="Homepage Structure")
                 
                 homepage_btn.click(
                     fn=self.content_manager.get_homepage_preview,
                     outputs=[homepage_json]
                 )
-            
-            with gr.Tab("Database Status"):
-                gr.Markdown("## System Information")
-                
-                def get_system_status():
-                    creators = len(self.db.list_creators())
-                    sets = len(self.db._load_collection(self.db.content_sets_file))
-                    cards = len(self.db._load_collection(self.db.cards_file))
-                    
-                    status = f"""**Database Statistics:**
-- Creators: {creators}
-- Content Sets: {sets}  
-- Cards: {cards}
-
-**Data Directory:** {self.db.data_dir}
-
-**Generator Status:** {self.content_manager.get_generator_status()}
-
-**Available Providers:** {len(self.content_manager.get_available_providers())}
-
-**Next Steps:**
-1. Add your Google API key to .env file for cost-effective generation
-2. Create content creators with multiple platforms
-3. Generate content sets with Gemini (~$0.01 per 20 cards)
-"""
-                    return status
-                
-                status_btn = gr.Button("Check System Status")
-                system_status = gr.Markdown()
-                
-                status_btn.click(
-                    fn=get_system_status,
-                    outputs=[system_status]
-                )
         
         return interface
 
+    def launch(self, port: int = 5001):
+        """Launch the Gradio interface"""
+        interface = self.create_interface()
+        interface.launch(
+            server_name="localhost",
+            server_port=port,
+            show_api=False,
+            share=False
+        )
+
 
 def main():
-    """Launch the enhanced Infogen application"""
-    print("Starting Enhanced Infogen Content Generator...")
-    
-    # Initialize the app
+    """Main entry point"""
     app = InfogenApp()
-    
-    # Create and launch interface
-    interface = app.create_interface()
-    interface.launch(
-        server_name="0.0.0.0",
-        server_port=5003,
-        share=False,
-        debug=True
-    )
+    app.launch()
 
 
 if __name__ == "__main__":

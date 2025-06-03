@@ -209,7 +209,7 @@ class UnifiedContentGenerator:
             if provider == LLMProvider.ANTHROPIC:
                 return await self._generate_with_anthropic(prompt)
             elif provider in [LLMProvider.GEMINI_OPENAI, LLMProvider.OPENAI]:
-                model_name = "gemini-2.0-flash" if provider == LLMProvider.GEMINI_OPENAI else "gpt-4o-mini"
+                model_name = "gemini-2.5-pro-exp-03-25" if provider == LLMProvider.GEMINI_OPENAI else "gpt-4o-mini"
                 return await self._generate_with_openai_compatible(prompt, provider, model_name)
             elif provider == LLMProvider.GEMINI:
                 return await self._generate_with_gemini_native(prompt)
