@@ -238,6 +238,44 @@ class InfogenApp:
         selected_count = len(selected_topics) if selected_topics else 0
         total_count = len(available_topics) if available_topics else 0
         return f"<p><strong>Selected:</strong> {selected_count} of {total_count} topics</p>"
+    
+    def get_cards_preview(self):
+        """Get preview of generated cards in both JSON and user-readable format"""
+        try:
+            # Load all cards from database
+            cards_data = self.db._load_collection(self.db.cards_file)
+            
+            # Count display
+            count_html = f"<p><strong>Total Cards in Database:</strong> {len(cards_data)}</p>"
+            
+            if not cards_data:
+                empty_msg = "<p>No cards found. Generate some content first!</p>"
+                return [], empty_msg, count_html
+            
+            # Create user-readable format
+            readable_html = "<div style='max-height: 600px; overflow-y: auto;'>"
+            for i, card in enumerate(cards_data, 1):
+                readable_html += f"""
+                <div style='border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 8px; background: #f9f9f9;'>
+                    <h3 style='color: #333; margin-top: 0;'>{i}. {card.get('title', 'Untitled')}</h3>
+                    <p><strong>Creator:</strong> {card.get('creator_id', 'Unknown')}</p>
+                    <p><strong>Set:</strong> {card.get('set_id', 'Unknown')}</p>
+                    <p><strong>Summary:</strong> {card.get('summary', 'No summary available')}</p>
+                    <details>
+                        <summary><strong>Detailed Content</strong></summary>
+                        <p style='margin-top: 10px;'>{card.get('detailed_content', 'No detailed content available')}</p>
+                    </details>
+                    <p><strong>Tags:</strong> {', '.join(card.get('tags', []))}</p>
+                    <p><strong>Difficulty:</strong> {card.get('domain_data', {}).get('difficulty', 'Not specified')}</p>
+                </div>
+                """
+            readable_html += "</div>"
+            
+            return cards_data, readable_html, count_html
+            
+        except Exception as e:
+            error_msg = f"<p style='color: red;'>Error loading cards: {str(e)}</p>"
+            return [], error_msg, "<p>Error loading card count</p>"
 
     def validate_topic_format(self, selected_topics):
         """Validate selected topics format and constraints."""
@@ -271,6 +309,37 @@ class InfogenApp:
             return f"❌ Error validating topics: {str(e)}"
     
     def generate_content_from_topics(self, creator_name, guidance, selected_topics, provider_str):
+        """Generate content cards from selected topics with visual feedback."""
+        try:
+            validation_result = self.validate_topic_format(selected_topics)
+            if not validation_result.startswith("✅"):
+                return f"Validation Failed: {validation_result}"
+            
+            topics = [topic.strip() for topic in selected_topics if topic.strip()]
+            
+            print(f"UI: Generating content for {len(topics)} selected topics. Creator: {creator_name}, Provider: {provider_str}")
+            
+            # Update status to show generation in progress
+            progress_message = f"🔴 GENERATING {len(topics)} CARDS - PLEASE WAIT (This may take 1-2 minutes)..."
+            
+            # Start generation
+            success = self.content_manager.generate_cards_from_topics(
+                creator_name, 
+                guidance, 
+                topics, 
+                provider_str,
+                set_id_placeholder=f"{creator_name.lower().replace(' ','_')}_topic_set"
+            )
+            
+            if success:
+                return f"✅ Content generation completed for {len(topics)} selected topics. Check database files!"
+            else:
+                return f"❌ Content generation failed. Check console logs for details."
+            
+        except Exception as e:
+            print(f"💥 Exception in UI generate_content_from_topics: {e}")
+            traceback.print_exc()
+            return f"❌ Error generating content: {str(e)}"
         """Generate content cards from selected topics."""
         try:
             validation_result = self.validate_topic_format(selected_topics)
@@ -300,7 +369,6 @@ class InfogenApp:
             print(f"💥 Exception in UI generate_content_from_topics: {e}")
             traceback.print_exc()
             return f"❌ Error generating content: {str(e)}"
-            return f"❌ Generation error: {str(e)}"
 
     def list_existing_creators(self) -> str:
         """List all existing creators from database for display."""
@@ -483,7 +551,7 @@ class InfogenApp:
                         available_topics_state = gr.State([])  # Store available topics
                         with gr.Row(visible=False) as topic_selection_row:
                             with gr.Column():
-                                topic_display = gr.HTML(label="Extracted Topics", value="")
+                                topic_display = gr.HTML(value="")
                                 with gr.Row():
                                     select_all_btn = gr.Button("Select All", variant="secondary", size="sm")
                                     clear_selection_btn = gr.Button("Clear Selection", variant="secondary", size="sm")
@@ -572,6 +640,29 @@ class InfogenApp:
                 homepage_json_preview = gr.JSON(label="Homepage Data Structure (Read-only)")
                 
                 gen_homepage_preview_btn.click(fn=self.content_manager.get_homepage_preview, outputs=[homepage_json_preview])
+
+            with gr.Tab("📄 Card Preview"):
+                gr.Markdown("## Generated Content Cards Preview")
+                gr.Markdown("View the generated content cards in both JSON format and user-readable format.")
+                
+                with gr.Row():
+                    with gr.Column(scale=1):
+                        refresh_cards_btn = gr.Button("🔄 Refresh Card Data", variant="primary")
+                    with gr.Column(scale=1):
+                        card_count_display = gr.HTML(value="")
+                
+                with gr.Row():
+                    with gr.Column(scale=1):
+                        gr.Markdown("### JSON Structure")
+                        cards_json_preview = gr.JSON(label="Raw Card Data (JSON)")
+                    with gr.Column(scale=1):
+                        gr.Markdown("### User-Readable Content")
+                        cards_content_preview = gr.HTML(label="Formatted Card Content")
+                
+                refresh_cards_btn.click(
+                    fn=self.get_cards_preview,
+                    outputs=[cards_json_preview, cards_content_preview, card_count_display]
+                )
         
         return interface
 
@@ -618,7 +709,7 @@ def main():
     app_data_dir = "data" 
     
     app = InfogenApp(data_dir=app_data_dir)
-    app.launch(default_port=5003) # Start with a less common port like 5003
+    app.launch(default_port=5001) # Start with port 5001
 
 
 if __name__ == "__main__":
