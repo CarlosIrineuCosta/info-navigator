@@ -23,15 +23,15 @@ const fetchData = async (url) => {
 };
 
 export const getCreators = async () => {
-  return fetchData('/data/creators.json');
+  return fetchData('./data/creators.json');
 };
 
 export const getContentSets = async () => {
-  return fetchData('/data/content_sets.json');
+  return fetchData('./data/content_sets.json');
 };
 
 export const getCardsForSet = async (setId) => {
-  const allCards = await fetchData('/data/cards.json');
+  const allCards = await fetchData('./data/cards.json');
   return allCards.filter(card => card.set_id === setId);
 };
 
