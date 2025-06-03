@@ -37,7 +37,19 @@ export const getCardsForSet = async (setId) => {
 
 export const getContentSetById = async (setId) => {
   const contentSets = await getContentSets();
-  return contentSets.find(set => set.set_id === setId) || null;
+  const creators = await getCreators();
+  
+  const contentSet = contentSets.find(set => set.set_id === setId);
+  if (!contentSet) {
+    return null;
+  }
+  
+  // Add creator information
+  const creatorsMap = new Map(creators.map(creator => [creator.creator_id, creator]));
+  return {
+    ...contentSet,
+    creator: creatorsMap.get(contentSet.creator_id) || { display_name: 'Autor Desconhecido' }
+  };
 };
 
 export const getHomepageData = async () => {
