@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/icons/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1a202c" />
+  <meta
+    name="description"
+    content="InfoNavigator - Explore quizzes interativos e aprenda algo novo!"
+  />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/icons/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Box_i</title>
+    <style>
+      /* Custom scrollbar for webkit browsers */
+      .horizontal-scrollbar::-webkit-scrollbar {
+        height: 8px;
+      }
+      .horizontal-scrollbar::-webkit-scrollbar-track {
+        background: #2d3748; /* bg-gray-800 */
+        border-radius: 10px;
+      }
+      .horizontal-scrollbar::-webkit-scrollbar-thumb {
+        background: #4a5568; /* bg-gray-600 */
+        border-radius: 10px;
+      }
+      .horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #718096; /* bg-gray-500 */
+      }
+      /* For Firefox */
+      .horizontal-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #4a5568 #2d3748;
+      }
+       /* Basic line-clamp utility if not using a Tailwind plugin */
+      .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <noscript>Você precisa habilitar o JavaScript para rodar este aplicativo.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
