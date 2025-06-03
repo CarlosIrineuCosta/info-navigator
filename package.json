@@ -2,6 +2,7 @@
   "name": "infonavigator-pwa",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://carlosirineuCosta.github.io/info-navigator",
   "dependencies": {
     "@heroicons/react": "^2.1.3",
     "@testing-library/jest-dom": "^5.17.0",
@@ -17,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +42,7 @@
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
+    "gh-pages": "^6.3.0",
     "tailwindcss": "^3.4.3"
   }
 }

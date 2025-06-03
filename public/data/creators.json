@@ -13,8 +13,8 @@
     "social_links": {},
     "expertise_areas": ["Conteúdo Educacional"],
     "content_style": "question_first",
-    "created_at": "2025-01-10T10:00:00Z",
-    "updated_at": "2025-01-10T10:00:00Z"
+    "created_at": "2023-01-10T10:00:00Z",
+    "updated_at": "2023-01-10T10:00:00Z"
   },
   {
     "creator_id": "anacontti50mais_dc55d49d",
@@ -30,7 +30,24 @@
     "social_links": {},
     "expertise_areas": ["Bem-estar", "Saúde da Mulher"],
     "content_style": "story_driven",
-    "created_at": "2053-02-15T09:00:00Z",
-    "updated_at": "2025-02-15T09:00:00Z"
+    "created_at": "2023-02-15T09:00:00Z",
+    "updated_at": "2023-02-15T09:00:00Z"
+  },
+  {
+    "creator_id": "box_i_c1r2e3a4t",
+    "display_name": "Box_i Conteúdo Geral",
+    "platform": "website",
+    "platform_handle": "box_i",
+    "avatar_url": "https://placehold.co/100x100/0284c7/FFF?text=IG",
+    "banner_url": "https://placehold.co/600x200/0284c7/FFF?text=Box_i+Geral",
+    "description": "Conteúdo diverso e educacional para todos os exploradores do conhecimento.",
+    "categories": ["general", "viagens", "concurso", "culinaria", "cinema"],
+    "follower_count": null,
+    "verified": false,
+    "social_links": {},
+    "expertise_areas": ["Conhecimento Geral", "Curiosidades"],
+    "content_style": "quiz",
+    "created_at": "2025-06-03T05:35:00Z",
+    "updated_at": "2025-06-03T05:35:00Z"
   }
 ]

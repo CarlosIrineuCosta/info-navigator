@@ -16,7 +16,7 @@ const HeroBanner = ({ contentSet }) => {
   }
 
   const { set_id, title, description, banner_url, creator } = contentSet;
-  const defaultBanner = 'https://placehold.co/1280x720/1a202c/4a5568?text=InfoNavigator';
+  const defaultBanner = 'https://placehold.co/1280x720/1a202c/4a5568?text=Box_i';
   const creatorName = creator ? creator.display_name : t('createdBy', { name: 'Desconhecido' });
 
 

@@ -1,5 +1,5 @@
 {
-  "appTitle": "InfoNavigator",
+  "appTitle": "Box_i",
   "navHome": "Início",
   "navBrowse": "Navegar",
   "navMyQuizzes": "Meus Quizzes",
@@ -18,7 +18,7 @@
   "contentSetPageTitle": "Coleção: {{setTitle}}",
   "pageNotFound": "Página Não Encontrada",
   "goHome": "Voltar para Início",
-  "footerText": "© {{year}} InfoNavigator. Todos os direitos reservados.",
+  "footerText": "© {{year}} Box_i. Todos os direitos reservados.",
   "loading": "Carregando...",
   "errorLoadingContent": "Não foi possível carregar o conteúdo. Tente novamente mais tarde.",
   "errorLoadingSetDetails": "Não foi possível carregar os detalhes da coleção.",
