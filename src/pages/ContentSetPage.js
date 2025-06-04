@@ -57,8 +57,12 @@ const ContentSetPage = () => {
   return (
     <div className="bg-gray-900 min-h-screen">
       <div 
-        className="h-64 md:h-80 bg-cover bg-center relative"
-        style={{ backgroundImage: `linear-gradient(to top, rgba(26, 32, 44, 1) 0%, rgba(26, 32, 44, 0.7) 40%, transparent 100%), url(${contentSet.banner_url || defaultPageBanner})` }}
+        className="h-64 md:h-80 bg-cover relative overflow-hidden"
+        style={{ 
+          backgroundImage: `linear-gradient(to top, rgba(26, 32, 44, 1) 0%, rgba(26, 32, 44, 0.7) 40%, transparent 100%), url(${contentSet.banner_url || defaultPageBanner})`,
+          backgroundPosition: 'center 30%', /* Show more of the upper part */
+          backgroundSize: 'cover'
+        }}
       >
         <div className="absolute bottom-0 left-0 p-4 md:p-8 max-w-3xl">
           <h1 className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">{contentSet.title}</h1>
@@ -74,30 +78,19 @@ const ContentSetPage = () => {
       <div className="container mx-auto px-4 md:px-8 py-6 md:py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div className="md:col-span-2 bg-gray-800 p-4 md:p-6 rounded-lg shadow-xl">
-            <h2 className="text-xl md:text-2xl font-semibold mb-4">{t('totalCardsLabel')} ({cards.length})</h2>
-            {cards.length > 0 ? (
-              <ul className="space-y-3">
-                {cards.map((card, index) => (
-                  <li key={card.card_id || index} className="bg-gray-700 p-3 rounded-md hover:bg-gray-600 transition-colors">
-                    {/* Link to individual card page (QuizPage - not yet implemented) */}
-                    {/* <Link to={`/set/${setId}/card/${card.card_id}`} className="block"> */}
-                      <h3 className="text-md md:text-lg font-medium text-brand-primary">{`${index + 1}. ${card.title}`}</h3>
-                      <p className="text-xs md:text-sm text-gray-400 truncate mt-1">{card.summary}</p>
-                    {/* </Link> */}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-400">{t('noCardsInSet')}</p>
-            )}
-             <div className="mt-6 text-center">
-                <button 
-                    // onClick={() => navigateToQuizStart()} // Implement navigation to first card/quiz start
-                    disabled // Enable when quiz functionality is ready
-                    className="bg-brand-primary hover:bg-brand-secondary text-white font-bold py-2 px-6 md:py-3 md:px-8 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {t('startQuizSoon')}
-                </button>
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">{t('aboutThisCollection')}</h2>
+            <p className="text-gray-300 leading-relaxed mb-6">
+              {contentSet.description}
+            </p>
+            
+            <div className="text-center">
+              <Link 
+                to={`/set/${setId}/quiz/0`}
+                className="inline-block bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"
+                style={{ backgroundColor: '#A09CA6' }}
+              >
+                🚀 {t('startQuiz')} ({cards.length} {t('cards')})
+              </Link>
             </div>
           </div>
 

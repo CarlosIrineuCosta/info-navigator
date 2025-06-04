@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Routes } from 'react-router-dom'; // Using
 import HomePage from './pages/HomePage';
 import ContentSetPage from './pages/ContentSetPage';
 import ContentSetPageDebug from './pages/ContentSetPageDebug';
+import QuizPage from './pages/QuizPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/set/:setId" element={<ContentSetPage />} />
+            <Route path="/set/:setId/quiz/:cardIndex?" element={<QuizPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

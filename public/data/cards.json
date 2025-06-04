@@ -1,417 +1,282 @@
 [
   {
-    "card_id": "lunar_explorer_original_space_exploration_20250602_2054_card_001",
-    "set_id": "lunar_explorer_original_space_exploration_20250602_2054",
-    "creator_id": "lunar_explorer_original",
-    "title": "Por que a hidratação é crucial no espaço?",
-    "summary": "A microgravidade afeta a distribuição de fluidos no corpo, tornando a hidratação ainda mais importante.",
-    "detailed_content": "No ambiente de microgravidade, os fluidos corporais tendem a se deslocar para a parte superior do corpo, causando inchaço facial e diminuição do volume das pernas. Este fenômeno, conhecido como fluid shift, pode levar à desidratação se não for adequadamente monitorado. Os astronautas precisam beber aproximadamente 2,5 litros de água por dia para manter a hidratação adequada.",
-    "order_index": 1,
-    "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 3, "context_data": {"theme": "Fisiologia Espacial"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/000/FFF?text=Astronauta+Bebendo+Água",
-        "alt_text": "Ilustração de um astronauta bebendo água",
-        "source": "NASA",
-        "license": "Public Domain",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Microgravidade", "Saúde do Astronauta"]},
-    "tags": ["hidratação", "microgravidade", "saúde espacial"],
-    "created_at": "2023-03-01T10:05:00Z",
-    "updated_at": "2023-05-15T11:05:00Z"
-  },
-  {
-    "card_id": "lunar_explorer_original_space_exploration_20250602_2054_card_002",
-    "set_id": "lunar_explorer_original_space_exploration_20250602_2054",
-    "creator_id": "lunar_explorer_original",
-    "title": "Como os astronautas monitoram sua saúde no espaço?",
-    "summary": "Tecnologias avançadas permitem o monitoramento contínuo da saúde dos astronautas durante missões espaciais.",
-    "detailed_content": "Os astronautas utilizam uma variedade de equipamentos médicos para monitorar sua saúde no espaço, incluindo ultrassom portátil, monitores cardíacos, e sensores de pressão arterial. O Medical Operations and Care (MOC) fornece suporte médico em tempo real da Terra, permitindo diagnósticos e tratamentos remotos quando necessário.",
-    "order_index": 2,
-    "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 3, "context_data": {"theme": "Fisiologia Espacial"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/000080/FFF?text=Equipamentos+Médicos+Espaciais",
-        "alt_text": "Equipamentos médicos utilizados na ISS",
-        "source": "NASA",
-        "license": "Public Domain",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Telemedicina", "Monitoramento Vital", "ISS"]},
-    "tags": ["saúde", "monitoramento", "tecnologia médica"],
-    "created_at": "2023-03-01T10:10:00Z",
-    "updated_at": "2023-05-15T11:10:00Z"
-  },
-  {
-    "card_id": "lunar_explorer_original_space_exploration_20250602_2054_card_003",
-    "set_id": "lunar_explorer_original_space_exploration_20250602_2054",
-    "creator_id": "lunar_explorer_original",
-    "title": "Quais são os principais riscos à saúde no espaço?",
-    "summary": "Radiação, perda óssea, atrofia muscular e problemas cardiovasculares são os principais desafios médicos no espaço.",
-    "detailed_content": "Os astronautas enfrentam múltiplos riscos à saúde durante missões espaciais: exposição à radiação cósmica que pode causar câncer, perda de densidade óssea de até 1% por mês, atrofia muscular de até 20% em 5-11 dias, e descondicionamento cardiovascular. Exercícios diários de 2,5 horas e suplementação nutricional são essenciais para mitigar esses efeitos.",
-    "order_index": 3,
-    "navigation_contexts": {
-      "thematic": {"position": 3, "total_items": 3, "context_data": {"theme": "Fisiologia Espacial"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/FF0000/FFF?text=Riscos+Espaciais",
-        "alt_text": "Infográfico sobre riscos à saúde no espaço",
-        "source": "NASA",
-        "license": "Public Domain",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Radiação Cósmica", "Osteoporose", "Atrofia Muscular"]},
-    "tags": ["riscos", "saúde espacial", "prevenção"],
-    "created_at": "2023-03-01T10:15:00Z",
-    "updated_at": "2023-05-15T11:15:00Z"
-  },
-  {
     "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_001",
+    "card_number": "c001",
     "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
-    "creator_id": "anacontti50mais_dc55d49d",
-    "title": "A Importância do Sono Reparador Após os 50",
-    "summary": "Dicas para melhorar a qualidade do seu sono e ter mais energia durante o dia.",
-    "detailed_content": "Com o envelhecimento, alguns padrões de sono podem mudar. No entanto, um sono de qualidade continua sendo essencial para a saúde física e mental. Estabeleça uma rotina relaxante antes de dormir, mantenha o quarto escuro e fresco, evite cafeína após as 14h e pratique técnicas de relaxamento como meditação ou leitura.",
+    "creator_id": "ana_contti",
+    "title": "Como começar a meditar depois dos 50?",
+    "summary": "Não precisa ser perfeita, só precisa começar com pequenos momentos.",
+    "detailed_content": "Comece com apenas 5 minutos por dia, escolha um horário fixo e um cantinho especial da casa. Não se preocupe em esvaziar a mente completamente - é normal os pensamentos aparecerem. O importante é criar esse espaço sagrado para você, um momento de reconexão com sua essência e de cultivo da paz interior.",
     "order_index": 1,
     "navigation_contexts": {
-       "thematic": {"position": 1, "total_items": 7, "context_data": {"theme": "Qualidade de Vida"}}
+      "thematic": {"position": 1, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
-    "media": [],
-    "domain_data": {},
-    "tags": ["sono", "bem-estar", "saude50+"],
-    "created_at": "2023-03-10T14:05:00Z",
-    "updated_at": "2023-05-22T10:05:00Z"
+    "media": [
+      {
+        "media_type": "image",
+        "url": "./images/sets/s002/cards/c001.jpg",
+        "alt_text": "Mulher madura sentada em posição de meditação em ambiente sereno com plantas",
+        "source": "Ana Contti",
+        "license": "Educational Use",
+        "validation_status": "verified",
+        "last_checked": "2025-06-04T00:00:00Z"
+      }
+    ],
+    "domain_data": {"related_concepts": ["mindfulness", "autocuidado", "equilíbrio emocional"]},
+    "tags": ["bem-estar", "saude", "meditacao", "mindfulness", "autocuidado"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
     "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_002",
+    "card_number": "c002",
     "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
-    "creator_id": "anacontti50mais_dc55d49d",
-    "title": "Alimentação Consciente e Nutritiva Após os 50",
-    "summary": "Como adaptar sua alimentação para as necessidades do corpo maduro e manter energia e vitalidade.",
-    "detailed_content": "Após os 50, o metabolismo desacelera e as necessidades nutricionais mudam. Priorize proteínas de qualidade para manter a massa muscular, aumente o consumo de cálcio e vitamina D para os ossos, inclua ômega-3 para o cérebro e coração, e mantenha-se hidratada. Coma porções menores mais frequentemente e escolha alimentos integrais e coloridos.",
+    "creator_id": "ana_contti",
+    "title": "Por que treinar a capacidade de sentar e levantar do chão é fundamental?",
+    "summary": "Esse movimento simples é um indicador poderoso da sua independência futura.",
+    "detailed_content": "A capacidade de sentar e levantar do chão sem apoio das mãos é um dos melhores preditores de longevidade e qualidade de vida. Pratique diariamente: sente no chão de diferentes formas e levante usando apenas as pernas. Comece apoiando em uma cadeira se necessário e vá progredindo gradualmente - seu corpo agradecerá nos anos vindouros.",
     "order_index": 2,
     "navigation_contexts": {
-       "thematic": {"position": 2, "total_items": 7, "context_data": {"theme": "Qualidade de Vida"}}
+      "thematic": {"position": 2, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/3CB371/FFF?text=Alimentação+50%2B",
-        "alt_text": "Prato colorido com alimentos saudáveis",
-        "source": "Stock Photo",
-        "license": "Licensed",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Nutrição", "Metabolismo", "Envelhecimento Saudável"]},
-    "tags": ["alimentação", "nutrição", "metabolismo", "saude50+"],
-    "created_at": "2023-03-10T14:10:00Z",
-    "updated_at": "2023-05-22T10:10:00Z"
-  },
-  {
-    "card_id": "lunar_explorer_original_space_exploration_20250602_2100_card_001",
-    "set_id": "lunar_explorer_original_space_exploration_20250602_2100",
-    "creator_id": "lunar_explorer_original",
-    "title": "Quais são os desafios da alimentação no espaço?",
-    "summary": "A microgravidade e as condições espaciais criam desafios únicos para a nutrição dos astronautas.",
-    "detailed_content": "No espaço, os astronautas enfrentam desafios únicos: perda de paladar e olfato devido à congestão nasal causada pelo fluid shift, necessidade de alimentos que não produzam migalhas que podem flutuar, e a impossibilidade de cozinhar tradicionalmente. Os alimentos devem ser liofilizados, termostabilizados ou irradiados para preservação de longa duração.",
-    "order_index": 1,
-    "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 5, "context_data": {"theme": "Nutrição Espacial"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/FFA07A/333?text=Comida+Espacial",
-        "alt_text": "Astronauta consumindo alimento espacial",
-        "source": "NASA",
-        "license": "Public Domain",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Microgravidade", "Preservação de Alimentos", "Paladar"]},
-    "tags": ["nutrição", "microgravidade", "alimentação espacial"],
-    "created_at": "2023-03-01T11:00:00Z",
-    "updated_at": "2023-05-15T12:00:00Z"
-  },
-  {
-    "card_id": "lunar_explorer_original_space_exploration_20250602_2100_card_002",
-    "set_id": "lunar_explorer_original_space_exploration_20250602_2100",
-    "creator_id": "lunar_explorer_original",
-    "title": "Como os alimentos são preparados para missões espaciais?",
-    "summary": "Tecnologias especiais de conservação garantem que os alimentos mantenham valor nutricional e segurança no espaço.",
-    "detailed_content": "Os alimentos espaciais passam por processos rigorosos: liofilização remove 98% da água preservando nutrientes, termostabilização usa calor para eliminar microorganismos, e irradiação mata bactérias sem afetar o sabor. Cada refeição é cuidadosamente balanceada para fornecer 2.500-3.000 calorias diárias com todos os nutrientes essenciais.",
-    "order_index": 2,
-    "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 5, "context_data": {"theme": "Nutrição Espacial"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/FA8072/FFF?text=Processamento+Alimentar",
-        "alt_text": "Laboratório de processamento de alimentos espaciais",
-        "source": "NASA",
-        "license": "Public Domain",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Liofilização", "Conservação", "Segurança Alimentar"]},
-    "tags": ["processamento", "conservação", "tecnologia alimentar"],
-    "created_at": "2023-03-01T11:05:00Z",
-    "updated_at": "2023-05-15T12:05:00Z"
-  },
-  {
-    "card_id": "box_i_c1r2e3a4t_volta_ao_mundo_a1b2c3d4_card_001",
-    "set_id": "box_i_c1r2e3a4t_volta_ao_mundo_a1b2c3d4",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Paris: Além da Torre Eiffel",
-    "summary": "Descubra segredos e curiosidades menos conhecidas da Cidade Luz.",
-    "detailed_content": "Paris possui mais de 400 parques e jardins, incluindo o cemitério Père Lachaise que é também um jardim botânico. A cidade tem 1.665 pâncreas (bancos) públicos e o metrô possui 14 linhas com 303 estações. Um fato curioso: existe uma réplica exata da Estátua da Liberdade na Île aux Cygnes, que aponta para sua irmã maior em Nova York.",
-    "order_index": 1,
-    "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 10, "context_data": {"theme": "Capitais Europeias"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/1E90FF/FFF?text=Paris+Secreta",
-        "alt_text": "Vista panorâmica de Paris com locais menos conhecidos",
-        "source": "Tourism Board",
-        "license": "Licensed",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Paris", "Turismo", "História Urbana"]},
-    "tags": ["paris", "curiosidades", "turismo", "europa"],
-    "created_at": "2025-06-03T06:00:00Z",
-    "updated_at": "2025-06-03T06:00:00Z"
-  },
-  {
-    "card_id": "box_i_c1r2e3a4t_volta_ao_mundo_a1b2c3d4_card_002",
-    "set_id": "box_i_c1r2e3a4t_volta_ao_mundo_a1b2c3d4",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Tóquio: Tradição e Modernidade",
-    "summary": "Como a capital japonesa equilibra perfeitamente o antigo e o futurista.",
-    "detailed_content": "Tóquio é tecnicamente uma metrópole de 23 bairros especiais, não uma cidade única. Possui o maior sistema de transporte do mundo, transportando 40 milhões de pessoas diariamente. O mercado de peixes Tsukiji foi transferido para Toyosu em 2018, mas o antigo local ainda atrai visitantes. Curiosidade: existem mais máquinas de venda automática que pessoas em algumas áreas da cidade!",
-    "order_index": 2,
-    "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 10, "context_data": {"theme": "Capitais Asiáticas"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/FF1493/FFF?text=Tóquio+Contraste",
-        "alt_text": "Contraste entre templos tradicionais e arranha-céus em Tóquio",
-        "source": "Japan Tourism",
-        "license": "Licensed",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      }
-    ],
-    "domain_data": {"related_concepts": ["Tóquio", "Japão", "Urbanismo", "Tecnologia"]},
-    "tags": ["toquio", "japao", "modernidade", "tradicao"],
-    "created_at": "2025-06-03T06:05:00Z",
-    "updated_at": "2025-06-03T06:05:00Z"
-  },
-  {
-    "card_id": "box_i_c1r2e3a4t_estudante_pro_b2c3d4e5_card_001",
-    "set_id": "box_i_c1r2e3a4t_estudante_pro_b2c3d4e5",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Direito Constitucional: Princípios Fundamentais",
-    "summary": "Questão sobre os fundamentos da República Federativa do Brasil.",
-    "detailed_content": "Segundo a Constituição Federal de 1988, são fundamentos da República Federativa do Brasil: I) soberania; II) cidadania; III) dignidade da pessoa humana; IV) valores sociais do trabalho e da livre iniciativa; V) pluralismo político. Estes princípios norteiam toda a interpretação constitucional e são base para questões de concursos.",
-    "order_index": 1,
-    "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 15, "context_data": {"theme": "Direito Público"}},
-      "difficulty": {"position": 1, "total_items": 15, "context_data": {"level": "intermediário"}}
-    },
-    "media": [
-      {
-        "media_type": "image",
-        "url": "https://placehold.co/600x400/32CD32/FFF?text=Constituição+Federal",
-        "alt_text": "Constituição Federal de 1988",
-        "source": "Educational Material",
+        "url": "./images/sets/s002/cards/c002.jpg",
+        "alt_text": "Mulher madura demonstrando exercício de sentar e levantar do chão com elegância",
+        "source": "Ana Contti",
         "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["Constituição", "Direitos Fundamentais", "Estado de Direito"]},
-    "tags": ["direito constitucional", "fundamentos", "republica", "concurso"],
-    "created_at": "2025-06-03T06:10:00Z",
-    "updated_at": "2025-06-03T06:10:00Z"
+    "domain_data": {"related_concepts": ["mobilidade", "independência funcional", "longevidade"]},
+    "tags": ["bem-estar", "saude", "exercicio", "mobilidade", "independencia"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
-    "card_id": "box_i_c1r2e3a4t_estudante_pro_b2c3d4e5_card_002",
-    "set_id": "box_i_c1r2e3a4t_estudante_pro_b2c3d4e5",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Matemática: Análise Combinatória",
-    "summary": "Problema clássico de permutações e combinações para concursos.",
-    "detailed_content": "Em uma turma de 12 alunos, de quantas maneiras podemos formar uma comissão de 5 alunos? Utilizamos a fórmula de combinação: C(n,k) = n!/(k!(n-k)!). Assim: C(12,5) = 12!/(5!×7!) = (12×11×10×9×8)/(5×4×3×2×1) = 792 maneiras. Este tipo de questão é frequente em concursos de várias áreas.",
-    "order_index": 2,
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_003",
+    "card_number": "c003",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como fortalecer os braços para o dia a dia depois dos 50?",
+    "summary": "Braços fortes garantem independência nas tarefas cotidianas e autoestima.",
+    "detailed_content": "Inclua exercícios de fortalecimento 3 vezes por semana: flexões na parede, elevação de braços com garrafas d'água como peso, ou exercícios com elásticos. Braços firmes não são só estética - significam carregar compras, segurar netos no colo e abrir potes sem dificuldade. Comece devagar e seja consistente, os resultados virão gradualmente.",
+    "order_index": 3,
     "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 15, "context_data": {"theme": "Matemática"}},
-      "difficulty": {"position": 2, "total_items": 15, "context_data": {"level": "intermediário"}}
+      "thematic": {"position": 3, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/4169E1/FFF?text=Combinatória",
-        "alt_text": "Fórmulas de análise combinatória",
-        "source": "Educational Material",
+        "url": "./images/sets/s002/cards/c003.jpg",
+        "alt_text": "Mulher madura realizando exercícios de fortalecimento dos braços com alegria",
+        "source": "Ana Contti",
         "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["Combinação", "Permutação", "Probabilidade"]},
-    "tags": ["matematica", "combinatoria", "concurso", "calculo"],
-    "created_at": "2025-06-03T06:15:00Z",
-    "updated_at": "2025-06-03T06:15:00Z"
+    "domain_data": {"related_concepts": ["força muscular", "independência funcional", "autoestima"]},
+    "tags": ["bem-estar", "saude", "exercicio", "forca", "membros-superiores"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
-    "card_id": "box_i_c1r2e3a4t_receitas_show_c3d4e5f6_card_001",
-    "set_id": "box_i_c1r2e3a4t_receitas_show_c3d4e5f6",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Brigadeiro Gourmet de Pistache",
-    "summary": "Uma versão sofisticada do doce brasileiro mais amado.",
-    "detailed_content": "Ingredientes: 1 lata de leite condensado, 2 colheres de manteiga, 3 colheres de cacau em pó, 100g de pistache triturado, granulado de pistache para decorar. Modo de preparo: Misture todos os ingredientes em fogo baixo por 15 minutos mexendo sempre. Quando desgrudar do fundo, retire do fogo. Espere esfriar, faça bolinhas e passe no granulado de pistache.",
-    "order_index": 1,
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_004",
+    "card_number": "c004",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Qual o segredo de uma alimentação equilibrada após os 50?",
+    "summary": "Qualidade sobre quantidade, e muito carinho na preparação.",
+    "detailed_content": "Priorize alimentos integrais, proteínas magras e vegetais coloridos a cada refeição. Cozinhe com amor, mastigue devagar e ouça seu corpo - ele sabe o que precisa. Hidrate-se bem ao longo do dia e não se esqueça: uma alimentação saudável é um ato de amor próprio, não uma punição.",
+    "order_index": 4,
     "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 8, "context_data": {"theme": "Doces Gourmet"}}
+      "thematic": {"position": 4, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/FF8C00/FFF?text=Brigadeiro+Gourmet",
-        "alt_text": "Brigadeiros gourmet de pistache em forminhas",
-        "source": "Recipe Photo",
-        "license": "Licensed",
+        "url": "./images/sets/s002/cards/c004.jpg",
+        "alt_text": "Mesa colorida com alimentos saudáveis preparados com carinho por mulher madura",
+        "source": "Ana Contti",
+        "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      },
-      {
-        "media_type": "video",
-        "url": "https://example.com/video/brigadeiro-pistache",
-        "alt_text": "Tutorial passo a passo do brigadeiro de pistache",
-        "source": "Cooking Channel",
-        "license": "Licensed",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["Confeitaria", "Doces Brasileiros", "Culinária Gourmet"]},
-    "tags": ["brigadeiro", "pistache", "doce", "gourmet", "brasileiro"],
-    "created_at": "2025-06-03T06:20:00Z",
-    "updated_at": "2025-06-03T06:20:00Z"
+    "domain_data": {"related_concepts": ["nutrição consciente", "alimentação intuitiva", "autocuidado"]},
+    "tags": ["bem-estar", "saude", "nutricao", "alimentacao", "amor-proprio"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
-    "card_id": "box_i_c1r2e3a4t_receitas_show_c3d4e5f6_card_002",
-    "set_id": "box_i_c1r2e3a4t_receitas_show_c3d4e5f6",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Risotto de Camarão e Limão Siciliano",
-    "summary": "Um prato elegante que combina a cremosidade do risotto com o frescor dos frutos do mar.",
-    "detailed_content": "Ingredientes: 300g arroz arbóreo, 500g camarão limpo, 1L caldo de camarão, 1 cebola picada, 2 dentes alho, 1 taça vinho branco, raspas de 2 limões sicilianos, 100g manteiga, 100g queijo parmesão, azeite, sal e pimenta. Refogue a cebola, adicione o arroz, o vinho, e vá adicionando o caldo aos poucos. Nos últimos 5 minutos, adicione os camarões e finalize com manteiga, queijo e raspas de limão.",
-    "order_index": 2,
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_005",
+    "card_number": "c005",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como cuidar da saúde emocional na maturidade?",
+    "summary": "Seus sentimentos são válidos e merecem atenção carinhosa.",
+    "detailed_content": "Reserve tempo diário para check-ins emocionais: como você está se sentindo? Pratique a autocompaixão, especialmente nos dias difíceis. Busque atividades que tragam alegria genuína e não hesite em procurar ajuda profissional quando necessário - cuidar da mente é tão importante quanto cuidar do corpo.",
+    "order_index": 5,
     "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 8, "context_data": {"theme": "Pratos Principais"}}
+      "thematic": {"position": 5, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/FFD700/333?text=Risotto+Camarão",
-        "alt_text": "Risotto cremoso com camarões e raspas de limão",
-        "source": "Recipe Photo",
-        "license": "Licensed",
+        "url": "./images/sets/s002/cards/c005.jpg",
+        "alt_text": "Mulher madura em momento de reflexão tranquila, demonstrando bem-estar emocional",
+        "source": "Ana Contti",
+        "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
-      },
-      {
-        "media_type": "video",
-        "url": "https://example.com/video/risotto-camarao",
-        "alt_text": "Tutorial completo do risotto de camarão",
-        "source": "Cooking Channel",
-        "license": "Licensed",
-        "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["Culinária Italiana", "Frutos do Mar", "Gastronomia"]},
-    "tags": ["risotto", "camarao", "limao", "italiano", "sofisticado"],
-    "created_at": "2025-06-03T06:25:00Z",
-    "updated_at": "2025-06-03T06:25:00Z"
+    "domain_data": {"related_concepts": ["inteligência emocional", "autocompaixão", "saúde mental"]},
+    "tags": ["bem-estar", "saude", "emocional", "autocompaixao", "saude-mental"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
-    "card_id": "box_i_c1r2e3a4t_no_telao_expert_d4e5f6g7_card_001",
-    "set_id": "box_i_c1r2e3a4t_no_telao_expert_d4e5f6g7",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "Curiosidades dos Bastidores de 'Titanic'",
-    "summary": "Fatos surpreendentes sobre a produção do filme que conquistou o mundo.",
-    "detailed_content": "O filme 'Titanic' (1997) custou mais para ser produzido do que o navio real custou para ser construído! James Cameron realmente desceu ao Titanic 12 vezes para filmar as cenas reais do naufrágio. A famosa cena da mão na janela embaçada do carro foi improvisada por Kate Winslet. O filme demorou 194 dias para ser filmado e usou 100.000 litros de água. Curiosamente, a água estava tão fria que você pode ver a respiração dos atores em algumas cenas.",
-    "order_index": 1,
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_006",
+    "card_number": "c006",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como manter conexões sociais significativas após os 50?",
+    "summary": "Relacionamentos de qualidade são medicina para a alma e o corpo.",
+    "detailed_content": "Invista em relacionamentos que nutrem sua alma - qualidade supera quantidade. Participe de grupos com interesses similares, seja voluntária em causas que acredita, mantenha contato regular com amigos queridos. Lembre-se: você também tem muito a oferecer! Suas experiências e sabedoria são presentes valiosos para quem convive com você.",
+    "order_index": 6,
     "navigation_contexts": {
-      "thematic": {"position": 1, "total_items": 12, "context_data": {"theme": "Épicos Cinematográficos"}}
+      "thematic": {"position": 6, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/800080/FFF?text=Titanic+Bastidores",
-        "alt_text": "Cenas dos bastidores da filmagem de Titanic",
-        "source": "Paramount Pictures",
-        "license": "Fair Use",
+        "url": "./images/sets/s002/cards/c006.jpg",
+        "alt_text": "Grupo de mulheres maduras conversando e rindo juntas em ambiente acolhedor",
+        "source": "Ana Contti",
+        "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["James Cameron", "Hollywood", "Produção Cinematográfica"]},
-    "tags": ["titanic", "james cameron", "bastidores", "curiosidades", "hollywood"],
-    "created_at": "2025-06-03T06:30:00Z",
-    "updated_at": "2025-06-03T06:30:00Z"
+    "domain_data": {"related_concepts": ["conexões sociais", "suporte social", "envelhecimento ativo"]},
+    "tags": ["bem-estar", "saude", "relacionamentos", "conexoes-sociais", "comunidade"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   },
   {
-    "card_id": "box_i_c1r2e3a4t_no_telao_expert_d4e5f6g7_card_002",
-    "set_id": "box_i_c1r2e3a4t_no_telao_expert_d4e5f6g7",
-    "creator_id": "box_i_c1r2e3a4t",
-    "title": "O Método de Preparação de Robert De Niro",
-    "summary": "Como o lendário ator se transforma completamente para cada personagem.",
-    "detailed_content": "Robert De Niro é famoso por seu método intenso de preparação. Para 'Taxi Driver', ele dirigiu táxi por semanas em Nova York. Em 'Touro Indomável', ganhou 27 kg para interpretar o boxeador mais velho. Para 'O Poderoso Chefão II', aprendeu siciliano e passou tempo com membros da máfia italiana. Em 'O Cabo do Medo', visitou dentistas para estragar propositalmente seus dentes. Seu dedicação extrema ao método de atuação o tornou um dos maiores atores de todos os tempos.",
-    "order_index": 2,
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_007",
+    "card_number": "c007",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Qual a importância do sono reparador na maturidade?",
+    "summary": "Uma boa noite de sono é o alicerce de todos os outros cuidados.",
+    "detailed_content": "Crie um ritual de relaxamento antes de dormir: desligue eletrônicos 1 hora antes, tome um chá calmante, leia algo prazeroso. Mantenha o quarto fresco, escuro e silencioso. Sono de qualidade não é luxo - é necessidade básica para regeneração celular, consolidação da memória e equilíbrio hormonal.",
+    "order_index": 7,
     "navigation_contexts": {
-      "thematic": {"position": 2, "total_items": 12, "context_data": {"theme": "Grandes Atores"}}
+      "thematic": {"position": 7, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
     },
     "media": [
       {
         "media_type": "image",
-        "url": "https://placehold.co/600x400/4B0082/FFF?text=De+Niro+Método",
-        "alt_text": "Montagem com diferentes personagens de Robert De Niro",
-        "source": "Film Archives",
-        "license": "Fair Use",
+        "url": "./images/sets/s002/cards/c007.jpg",
+        "alt_text": "Quarto sereno preparado para uma noite de sono reparador com elementos relaxantes",
+        "source": "Ana Contti",
+        "license": "Educational Use",
         "validation_status": "verified",
-        "last_checked": "2023-05-01T00:00:00Z"
+        "last_checked": "2025-06-04T00:00:00Z"
       }
     ],
-    "domain_data": {"related_concepts": ["Método de Atuação", "Cinema Americano", "Transformação Física"]},
-    "tags": ["robert de niro", "metodo atuacao", "preparacao", "transformacao", "cinema"],
-    "created_at": "2025-06-03T06:35:00Z",
-    "updated_at": "2025-06-03T06:35:00Z"
+    "domain_data": {"related_concepts": ["higiene do sono", "regeneração celular", "ritmo circadiano"]},
+    "tags": ["bem-estar", "saude", "sono", "descanso", "regeneracao"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
+  },
+  {
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_008",
+    "card_number": "c008",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como redescobrir sua essência e propósito após os 50?",
+    "summary": "Esta fase da vida é um convite para se reconectar com quem você realmente é.",
+    "detailed_content": "Reserve tempo para atividades que fazem seu coração cantar - pode ser pintura, jardinagem, escrita ou dança. Reflita sobre seus valores e o que realmente importa para você agora. A maturidade traz a liberdade de escolher conscientemente como quer viver, sem as pressões sociais da juventude. Permita-se sonhar novos sonhos!",
+    "order_index": 8,
+    "navigation_contexts": {
+      "thematic": {"position": 8, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
+    },
+    "media": [
+      {
+        "media_type": "image",
+        "url": "./images/sets/s002/cards/c008.jpg",
+        "alt_text": "Mulher madura em atividade criativa, demonstrando alegria e autenticidade",
+        "source": "Ana Contti",
+        "license": "Educational Use",
+        "validation_status": "verified",
+        "last_checked": "2025-06-04T00:00:00Z"
+      }
+    ],
+    "domain_data": {"related_concepts": ["autenticidade", "realização pessoal", "reinvenção"]},
+    "tags": ["bem-estar", "saude", "proposito", "autenticidade", "realizacao"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
+  },
+  {
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_009",
+    "card_number": "c009",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como estabelecer limites saudáveis na maturidade?",
+    "summary": "Dizer 'não' é um ato de amor próprio e respeito ao seu tempo.",
+    "detailed_content": "Aprenda a diferenciar entre ajudar por amor e ajudar por obrigação. Seu tempo e energia são recursos preciosos - invista-os conscientemente. Pratique frases como 'vou pensar e te respondo' antes de assumir novos compromissos. Lembre-se: cuidar de você primeiro não é egoísmo, é necessidade para poder cuidar bem dos outros.",
+    "order_index": 9,
+    "navigation_contexts": {
+      "thematic": {"position": 9, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
+    },
+    "media": [
+      {
+        "media_type": "image",
+        "url": "./images/sets/s002/cards/c009.jpg",
+        "alt_text": "Mulher madura demonstrando serenidade e assertividade em conversa respeitosa",
+        "source": "Ana Contti",
+        "license": "Educational Use",
+        "validation_status": "verified",
+        "last_checked": "2025-06-04T00:00:00Z"
+      }
+    ],
+    "domain_data": {"related_concepts": ["assertividade", "autocuidado", "limites pessoais"]},
+    "tags": ["bem-estar", "saude", "limites", "assertividade", "autocuidado"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
+  },
+  {
+    "card_id": "anacontti50mais_dc55d49d_wellness_20250602_2102_card_010",
+    "card_number": "c010",
+    "set_id": "anacontti50mais_dc55d49d_wellness_20250602_2102",
+    "creator_id": "ana_contti",
+    "title": "Como celebrar e abraçar as mudanças do corpo na maturidade?",
+    "summary": "Cada marca do tempo conta uma história de vida vivida com intensidade.",
+    "detailed_content": "Pratique a gratidão pelo que seu corpo fez e ainda faz por você - gerou filhos, trabalhou, dançou, amou. Invista em roupas que realcem sua beleza atual, não a de 20 anos atrás. Cuide da postura, mantenha-se ativa e lembre-se: a verdadeira beleza vem da confiança, do sorriso genuíno e da energia positiva que você irradia.",
+    "order_index": 10,
+    "navigation_contexts": {
+      "thematic": {"position": 10, "total_items": 10, "context_data": {"theme": "Bem-estar 50+"}}
+    },
+    "media": [
+      {
+        "media_type": "image",
+        "url": "./images/sets/s002/cards/c010.jpg",
+        "alt_text": "Mulher madura olhando-se no espelho com carinho e aceitação, irradiando autoestima",
+        "source": "Ana Contti",
+        "license": "Educational Use",
+        "validation_status": "verified",
+        "last_checked": "2025-06-04T00:00:00Z"
+      }
+    ],
+    "domain_data": {"related_concepts": ["aceitação corporal", "autoestima", "envelhecimento positivo"]},
+    "tags": ["bem-estar", "saude", "autoaceitacao", "autoestima", "beleza-madura"],
+    "created_at": "2025-06-04T10:00:00Z",
+    "updated_at": "2025-06-04T10:00:00Z"
   }
 ]

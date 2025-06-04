@@ -32,5 +32,9 @@
   "totalCardsLabel": "Total de Cartas:",
   "targetAudienceLabel": "Público Alvo:",
   "prerequisitesLabel": "Pré-requisitos:",
-  "tagsLabel": "Tags:"
+  "tagsLabel": "Tags:",
+  "aboutThisCollection": "Sobre Esta Coleção",
+  "startQuiz": "Iniciar Quiz",
+  "cards": "cartas",
+  "backToSet": "Voltar à Coleção"
 }

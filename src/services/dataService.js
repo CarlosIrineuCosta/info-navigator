@@ -78,7 +78,7 @@ export const getHomepageData = async () => {
   let featuredSets = [];
 
   // Prioritize 'tags_pt' if available
-  const setsTaggedPopular = contentSets.filter(set => set.tags_pt && set.tags_pt.includes("Populares") && set.set_id !== (heroSet ? heroSet.set_id : null));
+  const setsTaggedPopular = contentSets.filter(set => set.tags_pt && set.tags_pt.includes("Populares"));
   const setsTaggedFeatured = contentSets.filter(set => set.tags_pt && set.tags_pt.includes("Destaques") && set.set_id !== (heroSet ? heroSet.set_id : null));
 
   if (setsTaggedPopular.length > 0) {

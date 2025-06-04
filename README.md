@@ -2,6 +2,30 @@
 
 This project is a functional skeleton for the Box_i Quiz App, built as a Progressive Web App (PWA) using React and Tailwind CSS. It's designed to be easily deployable to static hosting services like GitHub Pages, Netlify, or Vercel.
 
+## ⚠️ WARNING - TODO
+
+**URGENT**: Database structure and Builder integration changes needed:
+
+### 🔧 Implemented (Ready for testing):
+1. **✅ Set Numbering**: Added `set_number` field (s001, s002, s003) to content_sets.json
+2. **✅ Card Numbering**: Added `card_number` field (c001, c002, etc.) to cards.json  
+3. **✅ Image Organization**: Created `/public/images/sets/{set_number}/` structure with subfolders
+4. **✅ Path Updates**: Updated JSON to use `./images/sets/s001/banner.jpg` format
+5. **✅ Fallback System**: Images gracefully fallback to placeholders if missing
+
+### 🚨 Builder Integration Required:
+1. **Database Structure**: See `DATABASE_STRUCTURE.md` for complete field specifications
+2. **Auto-numbering**: Builder must generate `set_number` and `card_number` fields
+3. **Creator ID Validation**: System must check `creator_id` availability before creation
+4. **Image Path Generation**: Auto-generate paths using new numbering system
+5. **Color Scheme UI**: Interface for selecting per-set color themes
+
+### 📸 Quick Image Testing:
+- Drop images into `/public/images/sets/s001/`, `/s002/`, `/s003/` folders
+- Naming: `banner.jpg`, `thumbnail.jpg`, `cards/c001.jpg`, etc.
+- See folder README.md files for specific guidance
+- Missing images automatically show placeholders
+
 ## Features
 
 - **Netflix/Amazon Prime-style Homepage:**
