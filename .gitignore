@@ -107,6 +107,11 @@ venv.bak/
 builder-venv/
 viewer/venv/ # for the viewer app
 
+# Node  
+  node_modules/
+  package-lock.json
+  build/
+
 # VS Code
 .vscode/*
 !.vscode/settings.json
@@ -114,6 +119,8 @@ viewer/venv/ # for the viewer app
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+.DS_Store
+*.Zone.Identifier
 
 # OS generated files
 .DS_Store
@@ -123,3 +130,7 @@ viewer/venv/ # for the viewer app
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Project specific
+builder/data/images/
+*.log
